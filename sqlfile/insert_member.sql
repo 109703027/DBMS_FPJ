@@ -1,0 +1,23 @@
+INSERT INTO member (memberID, name, sex, birth, phone, email, address, memberExp)
+VALUES
+('M001','Amy','F','1965-01-09','0123456789','a@gmail.com','731 Fondren, Houston, TX','2024-05-10'),
+('M002','Amber','F','1977-11-17','0923849283','amber1117@gmail.com','123 Main Street Anytown, USA 12345','2024-06-13'),
+('M003','John','M','2001-10-08','0963478586','jjj1008@yahoo.com.tw','456 Oak Avenue, Smallville, CA 98765','2024-06-13'),
+('M004','Bob','M','1965-11-06','0988541254','b@gmail.com','450 Stone, Houston TX','2024-05-10'),
+('M005','Emily','F','1999-10-24','0989287394','snjidns@gmail.com','345 Atlanta','2024-12-04'),
+('M006','Coil','F','2002-08-17','0973882939','coil3339@gmail.com','456 Oak Avenue Somewhereville, Canada A1B 2C3','2024-08-17'),
+('M007','Ray','M','1997-08-31','0912246789','IamRay@gmail.com','Springfield, 456 Oak Avenue, Canada A1B 2C3','2023-05-22'),
+('M008','Linda','F','1965-08-26','0945128963','L@gmail.com','980 Dallas, Houston TX','2024-12-31'),
+('M009','Jem','F','2009-01-13','0973332819','jem998877@gmail.com','789 Park Road Cityville, United Kingdom AB1 2CD','2024-09-13'),
+('M010','Jason','M','1990-10-15','0955127837','closedmarket@gmail.com','789 Maple Street, Springfield, IL 62704','2025-11-17'),
+('M011','Rose','F','2003-01-04','0979323923','fjw9fkss@gmail.com','983 Boston','2024-01-25'),
+('M012','Harry','M','2001-05-23','0983238104','92830ss@gmail.com','263 Columbos','2024-04-20'),
+('M013','Jeremy','M','2004-02-29','0965348440','ymerej@gmail.com','123 Green Street,Springfield,California','2024-12-31'),
+('M014','Cindy','F','1980-04-25','0966088719','cindybabe@gmail.com','520 Loveyu Street, Taipei, Taiwan','2024-05-20'),
+('M015','Jerry','M','1999-08-13','0977888789','strongman@gmail.com','78 Iron Street, Taipei, Taiwan','2024-07-08'),
+('M016','Ka','M','1979-11-30','0938373737','kai1979@yahoo.com.tw','88 Zhongshan Rd, Taipei, Taiwan','2023-12-30'),
+('M017','Bao','M','2000-05-04','0942684659','xiaobao@gmail.com','456 Park Avenue,New York,New York','2023-11-23'),
+('M018','Song','M','2003-03-04','0904753094','xuan@gmail.com','789 Ocean View Drive,Los Angeles,California','2024-09-23'),
+('M019','Ali','M','2001-01-15','0923579865','aliali@gmail.com','210 Oakwood Drive, Hillcrest, CO 56789','2023-12-31'),
+('M020','Chong','M','1995-11-12','0928475937','datuk@gmail.com','543 Cherry Avenue, Parkside, AZ 23456','2025-08-10'),
+('M021','Najib','M','1970-04-22','0919305734','rosmah@gmail.com','876 Walnut Street, Springfield, MA 90123','2024-05-19');
