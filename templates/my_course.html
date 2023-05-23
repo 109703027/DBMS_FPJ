@@ -16,7 +16,7 @@
 	      <th>上課時間</th>
 	      <th>開課日期</th>
 	      <th>結業日期</th>
-	      <th width="100">評價</th>
+	      <th>評價</th>
 	    </tr>
 	  </thead>
 	  <hr style="border-top:1px dashed #0066CC;"/>
@@ -28,7 +28,7 @@
 		  <td>{{ course.Day }}</td>
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>
-          <td>{{ course.comment}}</td>
+          <td><input type="text" value="{{ course.comment }}"></td>
 		</tr>
 		{% endfor %}
 	  </tbody>
