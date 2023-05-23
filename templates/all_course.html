@@ -26,10 +26,18 @@
 		  <td>{{ course.Title }}</td>
 		  <td>{{ course.c_Name }}</td>
 		  <td>{{ course.Day }}</td>
-		<!--<td>{{ course.Time }}</td> -->
+		<!-- <td>{{ course.Time }}</td> -->
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>
-		  <td>{{ username }}</td>
+          {% if course.Condition == 1 %}
+              <td><input type="button" disabled="disabled" value="已報名"></td>
+          {% elif course.Condition == 2 %}
+              <td><input type="button" disabled="disabled" value="已額滿"></td>
+          {% elif course.Condition == 3 %}
+              <td><input type="button" disabled="disabled" value="期限不足"></td>
+          {% else %}
+              <td><input type="button" disabled="disabled" value="我要報名"></td>
+          {% endif %}
 		</tr>
 		{% endfor %}
 	  </tbody>

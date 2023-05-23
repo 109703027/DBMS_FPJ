@@ -24,16 +24,30 @@ def login():
 @app.route('/course/<username>')
 def all_course(username):
     db = get_db()
-    sql = "SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd FROM course AS c, coach AS ch WHERE c.dateStart > date(\'now\') and c.coachID == ch.coachID ORDER BY c.dateStart"
+    sql = "SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, c.courseID FROM course AS c, coach AS ch WHERE c.dateStart > date(\'now\') and c.coachID = ch.coachID ORDER BY c.dateStart"
     data = db.execute(sql).fetchall()
     course_data = []
     for d in data:
+        
+        params1 = (d[6],username)
+        params2 = (d[6],)
+        params3 = (username,d[5])
+        if db.execute("SELECT * FROM record WHERE courseID = ? and memberID = (SELECT memberID FROM member WHERE name = ?)",params1).fetchone():
+            cond = 1
+        elif db.execute("SELECT * FROM record WHERE courseID = ? GROUP BY courseID HAVING COUNT(*) >= 10",params2).fetchone():
+            cond = 2
+        elif db.execute("SELECT * FROM member WHERE name = ? and memberExp < ?",params3).fetchone():
+            cond = 3
+        else:
+            cond = 4
+
         course_data.append({
             'Title':d[0],
             'c_Name':d[1],
             'Day':d[2]+"  "+d[3],
             'Start':d[4],
-            'End':d[5]
+            'End':d[5],
+            'Condition':cond
         })
     return render_template(
         'all_course.html',
