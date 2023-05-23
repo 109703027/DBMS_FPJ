@@ -55,6 +55,34 @@ def all_course(username):
         course_data = course_data
     )
 
+@app.route('/my_course/<username>')
+def my_course(username):
+    db = get_db()
+    sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate
+            FROM course AS C, coach AS T, member as M, record as R
+            WHERE C.coachID = T.coachID and R.courseID = C.courseID and R.memberID = M.memberID and M.memberID = ?
+            ORDER BY c.dateStart"""
+    cursor = db.cursor()
+    cursor.execute(sql, (username,))
+    data = cursor.fetchall()
+    course_data = []
+
+    for d in data:
+        course_data.append({
+            'Title':d[0],
+            'c_Name':d[1],
+            'Day':d[2]+"  "+d[3],
+            'Start':d[4],
+            'End':d[5],
+            'comment':d[6]
+        })
+
+
+    return render_template(
+        'my_course.html',
+        username = username,
+        course_data = course_data
+    )
 
 @app.teardown_appcontext
 def close_connection(exception):
