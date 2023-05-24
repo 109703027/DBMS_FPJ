@@ -3,6 +3,7 @@ from flask import Flask, g
 from flask import render_template, request, redirect, url_for
 import datetime
 
+#hi
 app = Flask(__name__)
 SQLITE_DB_PATH = 'gym.db'
 
