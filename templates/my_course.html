@@ -28,12 +28,21 @@
 		  <td>{{ course.Day }}</td>
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>
-          <td><input type="text" value="{{ course.comment }}"></td>
+          <form action="/save" method="post">
+			<input type="hidden" name="courseID" value="{{ course.courseID }}">
+  			<input type="hidden" name="userID" value="{{ userID }}">
+			<td><input type="text" name="comment" value="{{ course.comment }}"></td>
+			<td><input type="submit" value="儲存" onclick="save_done()"></td>
+		  </form>
 		</tr>
 		{% endfor %}
 	  </tbody>
 	</table>
-
 	<hr/>
+	<script>
+		function save_done() {
+			alert("修改成功！");
+		}
+	</script>
   </body>
 </html>

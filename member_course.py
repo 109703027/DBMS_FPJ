@@ -16,7 +16,7 @@ def get_db():
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return redirect(url_for('all_course', username=request.form.get('username')))
+        return redirect(url_for('my_course', username=request.form.get('username')))
 
     return render_template('mem_login.html')
 
@@ -58,7 +58,7 @@ def all_course(username):
 @app.route('/my_course/<username>')
 def my_course(username):
     db = get_db()
-    sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate
+    sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate, C.courseID
             FROM course AS C, coach AS T, member as M, record as R
             WHERE C.coachID = T.coachID and R.courseID = C.courseID and R.memberID = M.memberID and M.memberID = ?
             ORDER BY c.dateStart"""
@@ -74,15 +74,31 @@ def my_course(username):
             'Day':d[2]+"  "+d[3],
             'Start':d[4],
             'End':d[5],
-            'comment':d[6]
+            'comment':d[6],
+            'courseID':d[7]
         })
 
 
     return render_template(
         'my_course.html',
-        username = username,
+        userID = username,
         course_data = course_data
     )
+
+@app.route('/save', methods=['POST'])
+def save_comment():
+    comment = request.form.get('comment')
+    userID = request.form.get('userID')
+    courseID = request.form.get('courseID')
+    db = get_db()
+    cursor = db.cursor()
+    sql = '''UPDATE record
+            set evaluate = ?
+            where courseID = ? and memberID = ?'''
+    cursor.execute(sql, (comment, courseID, userID))
+    db.commit()
+
+    return redirect(url_for('my_course', username=userID))
 
 @app.teardown_appcontext
 def close_connection(exception):
