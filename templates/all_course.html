@@ -36,7 +36,7 @@
           {% elif course.Condition == 3 %}
               <td><input type="button" disabled="disabled" value="期限不足"></td>
           {% else %}
-              <td><input type="button" disabled="disabled" value="我要報名"></td>
+              <td><input type="button" value="我要報名" onclick="confirmRegistration()"></td>
           {% endif %}
 		</tr>
 		{% endfor %}
@@ -45,11 +45,14 @@
 
 	<hr/>
 
-	<h3>功能列</h3>
-	<ul>
-	  <li>首頁（抽籤）</li>
-	  <li>歷史記錄</li>
-	  <li>清除記錄、更新成員資料</li>
-	</ul>
+	<script>
+		function confirmRegistration() {
+		  var confirmed = confirm("你確定要報名嗎？");
+  
+		  if (confirmed) {
+			alert("報名成功！");
+		  }
+		}
+	</script>
   </body>
 </html>
