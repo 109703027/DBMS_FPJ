@@ -32,11 +32,11 @@ def all_course(username):
         params1 = (d[6],username)
         params2 = (d[6],)
         params3 = (username,d[5])
-        if db.execute("SELECT * FROM record WHERE courseID = ? and memberID = (SELECT memberID FROM member WHERE name = ?)",params1).fetchone():
+        if db.execute("SELECT * FROM record WHERE courseID = ? and memberID = (SELECT memberID FROM member WHERE memberID = ?)",params1).fetchone():
             cond = 1
         elif db.execute("SELECT * FROM record WHERE courseID = ? GROUP BY courseID HAVING COUNT(*) >= 10",params2).fetchone():
             cond = 2
-        elif db.execute("SELECT * FROM member WHERE name = ? and memberExp < ?",params3).fetchone():
+        elif db.execute("SELECT * FROM member WHERE memberID = ? and memberExp < ?",params3).fetchone():
             cond = 3
         else:
             cond = 4
@@ -47,11 +47,12 @@ def all_course(username):
             'Day':d[2]+"  "+d[3],
             'Start':d[4],
             'End':d[5],
-            'Condition':cond
+            'Condition':cond,
+            'courseID':d[6]
         })
     return render_template(
         'all_course.html',
-        username = username,
+        userID = username,
         course_data = course_data
     )
 
