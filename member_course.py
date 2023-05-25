@@ -16,7 +16,7 @@ def get_db():
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return redirect(url_for('my_course', username=request.form.get('username')))
+        return redirect(url_for('all_course', username=request.form.get('username')))
 
     return render_template('mem_login.html')
 
@@ -96,6 +96,18 @@ def save_comment():
             set evaluate = ?
             where courseID = ? and memberID = ?'''
     cursor.execute(sql, (comment, courseID, userID))
+    db.commit()
+
+    return redirect(url_for('my_course', username=userID))
+
+@app.route('/insert', methods=['POST'])
+def sign_up():
+    userID = request.form.get('userID')
+    courseID = request.form.get('courseID')
+    db = get_db()
+    cursor = db.cursor()
+    sql = "INSERT INTO record (courseID, memberID, evaluate) VALUES (?, ?, ?)"
+    cursor.execute(sql, (courseID, userID, ""))
     db.commit()
 
     return redirect(url_for('my_course', username=userID))

@@ -36,7 +36,11 @@
           {% elif course.Condition == 3 %}
               <td><input type="button" disabled="disabled" value="期限不足"></td>
           {% else %}
-              <td><input type="button" value="我要報名" onclick="confirmRegistration()"></td>
+              <form action="/insert" method="post">
+                <input type="hidden" name="courseID" value="{{ course.courseID }}">
+                <input type="hidden" name="userID" value="{{ userID }}">
+                <td><input type="submit" value="我要報名" onclick="confirmRegistration()"></td>
+              </form>
           {% endif %}
 		</tr>
 		{% endfor %}
