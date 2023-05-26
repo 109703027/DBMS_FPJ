@@ -1,0 +1,61 @@
+<!--輸入租借器材、日期、時間、數量，顯示器材名稱、可借數量-->
+
+
+{% extends "search_equip.html" %}
+{% block content %}
+<h1>租借</h1>
+  <body>
+    <form  action="/modify" method="POST"  >
+        <p> 
+            {% for equip in equipment_data %}
+                <label for="">器材 </label>
+                <input type="text" id="Type" name="Type" value="{{equip.Equipment}}">
+            {% endfor %}
+        </p>        
+        
+        <p>
+            <label for="">日期 </label>
+            <input type="date" id="Date" name="Date">
+    
+        </p>
+        
+        <p>
+            <label for="">時間 </label>
+            <input type='time' id='Time_S' name='Time_S' placeholder="起"/>
+            
+        </p>
+    
+
+
+
+    
+    <table width="50%">
+        <thead align="left">
+            <tr>
+            <th>設備</th>
+            <th>可用數量</th>
+            <th>租借數量</th>
+    
+            </tr>
+        </thead>
+        <hr style="border-top:1px dashed #0066CC;"/>
+        <tbody>
+            {% for equip in equipment_data %}
+                <tr height="50px">
+                    <td>{{ equip.Equipment }}</td>
+                    <td>{{ equip.count }}</td>
+                    <td><input type='number'  id='Quantity' name='Quantity' value='1' min='1'  max='{{ equip.count }}' "/> <input type='submit' ></td>
+                                                    
+                </tr>
+                
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <hr/>
+    </form>
+</body>
+
+{% endblock content %}
+
+
