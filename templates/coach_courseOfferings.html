@@ -8,15 +8,28 @@
       function showConfirmation() {
         alert("課程發布成功！");
       }
+      function validateForm() {
+        var title = document.getElementById('title').value;
+
+        // 檢查課程名稱是否只包含英文字母
+        if (!/^[A-Za-z]+$/.test(title)) {
+          // alert('課程名稱只能包含英文字母，請重新輸入。');
+          return false;
+        }
+
+        showConfirmation();
+        return true;
+      }
+
     </script>
   </head>
 
-  <form method="POST">
+  <form method="POST" onsubmit="return validateForm()">
     <label for="title">課程名稱：</label>
-    <input type="name" id="title" name="title" placeholder="請輸入課程名稱" required><br>
+    <input type="text" id="title" name="title" pattern="[A-Za-z]+" placeholder="請輸入課程名稱" required><br>
 
     <label for="price">價錢：</label>
-    <input type="price" id="price" name="price" placeholder="請輸入課程價錢" required><br>
+    <input type="number" id="price" name="price" placeholder="請輸入課程價錢" required><br>
 
     <label for="start_date">開課日期：</label>
     <input type="date" id="start_date" name="start_date" placeholder="請輸入開課日期" required><br>
@@ -41,7 +54,7 @@
     <label for="end_time">下課時間：</label>
     <input type="time" id="end_time" name="end_time" placeholder="請輸入下課時間" required><br>
         
-    <input type="submit" value="提交" onclick="showConfirmation()">
+    <input type="submit" value="提交">
   </form>
   
 </html>
