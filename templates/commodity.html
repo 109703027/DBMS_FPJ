@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>健身房管理平台 - 周邊商品</title>
+        <style>
+            .container {
+              text-align: center;
+              margin-top: 30px;
+            }
+            .button {
+              width: 20px;
+              height: 20px;
+              border: 1px solid black;
+              display: inline-block;
+              cursor: pointer;
+              margin: 0 10px;
+            }
+          </style>
+	</head>
+	<body>
+		<h1>周邊商品</h1>
+        <table width="50%">
+            <thead align="left">
+                <tr>
+                    <th>商品</th>
+                    <th>價錢</th>
+                    <th>庫存</th>
+                    <th>購買</th>
+                </tr>
+            </thead>
+            <hr>
+            <tbody>
+            {% for comm in comm_data %} 
+		        <tr height="50px" width="25px">
+		            <td>{{ comm.name }}</td>
+		            <td>{{ comm.cost }}</td>
+		            <td>{{ comm.store }}</td>
+                    <td>
+                        <div class="button" onclick="decrement('quantity{{ comm.id }}')">-</div>
+                    </td>
+                    <td><div id="quantity{{ comm.id }}">0</div></td>
+                    <td>
+                        <div class="button" onclick="increment('quantity{{ comm.id }}')">+</div>
+                    </td>
+		        </tr>
+		        {% endfor %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <input type="button" value="下單" onclick="buycommodity()">
+            </td>
+            <script>
+                    function increment(quantityId) {
+                      var quantityElement = document.getElementById(quantityId);
+                      var quantity = parseInt(quantityElement.innerHTML);
+                      quantity++;
+                      quantityElement.innerHTML = quantity;
+                    }
+                
+                    function decrement(quantityId) {
+                      var quantityElement = document.getElementById(quantityId);
+                      var quantity = parseInt(quantityElement.innerHTML);
+                      if (quantity > 0) {
+                        quantity--;
+                        quantityElement.innerHTML = quantity;
+                      }
+                    }
+                    function buycommodity() {
+                      var confirmed = confirm("確定下單？");
+		                  if (confirmed) {
+			                  alert("下單成功！");
+                      }
+		                }
+            </script>
+            </tbody>
+        </table>
+	</body>
+</html>
