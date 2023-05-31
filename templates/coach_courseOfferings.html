@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>教練_我要開課</title>
+    <script>
+      function showConfirmation() {
+        alert("課程發布成功！");
+      }
+      function validateForm() {
+        var title = document.getElementById('title').value;
+
+        // 檢查課程名稱是否只包含英文字母
+        if (!/^[A-Za-z]+$/.test(title)) {
+          // alert('課程名稱只能包含英文字母，請重新輸入。');
+          return false;
+        }
+
+        showConfirmation();
+        return true;
+      }
+
+    </script>
+  </head>
+
+  <form method="POST" onsubmit="return validateForm()">
+    <label for="title">課程名稱：</label>
+    <input type="text" id="title" name="title" pattern="[A-Za-z]+" placeholder="請輸入課程名稱" required><br>
+
+    <label for="price">價錢：</label>
+    <input type="number" id="price" name="price" placeholder="請輸入課程價錢" required><br>
+
+    <label for="start_date">開課日期：</label>
+    <input type="date" id="start_date" name="start_date" placeholder="請輸入開課日期" required><br>
+    
+    <label for="end_date">結業日期：</label>
+    <input type="date" id="end_date" name="end_date" placeholder="請輸入結業日期" required><br>
+
+    <label for="weekday">選擇星期：</label>
+      <select id="weekday" name="weekday">
+        <option value="monday">星期一</option>
+        <option value="tuesday">星期二</option>
+        <option value="wednesday">星期三</option>
+        <option value="thursday">星期四</option>
+        <option value="friday">星期五</option>
+        <option value="saturday">星期六</option>
+        <option value="sunday">星期日</option>
+    </select><br>
+
+    <label for="start_time">上課時間：</label>
+    <input type="time" id="start_time" name="start_time" placeholder="請輸入上課時間" required><br>
+
+    <label for="end_time">下課時間：</label>
+    <input type="time" id="end_time" name="end_time" placeholder="請輸入下課時間" required><br>
+        
+    <input type="submit" value="提交">
+  </form>
+  
+</html>
