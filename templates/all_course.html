@@ -36,10 +36,10 @@
           {% elif course.Condition == 3 %}
               <td><input type="button" disabled="disabled" value="期限不足"></td>
           {% else %}
-              <form action="/insert" method="post">
+              <form action="/insert" method="post" onsubmit="return confirmRegistration()">
                 <input type="hidden" name="courseID" value="{{ course.courseID }}">
                 <input type="hidden" name="userID" value="{{ userID }}">
-                <td><input type="submit" value="我要報名" onclick="confirmRegistration()"></td>
+                <td><input type="submit" value="我要報名"></td>
               </form>
           {% endif %}
 		</tr>
@@ -52,10 +52,12 @@
 	<script>
 		function confirmRegistration() {
 		  var confirmed = confirm("你確定要報名嗎？");
-  
-		  if (confirmed) {
-			alert("報名成功！");
+		  if(!confirmed){
+			return false;
 		  }
+		
+		  alert("報名成功！");
+		  return true;
 		}
 	</script>
   </body>

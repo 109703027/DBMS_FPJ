@@ -101,15 +101,16 @@ def save_comment():
 
     return redirect(url_for('my_course', username=userID))
 
-@app.route('/insert', methods=['POST'])
+@app.route('/insert', methods=['GET', 'POST'])
 def sign_up():
-    userID = request.form.get('userID')
-    courseID = request.form.get('courseID')
-    db = get_db()
-    cursor = db.cursor()
-    sql = "INSERT INTO record (courseID, memberID, evaluate) VALUES (?, ?, ?)"
-    cursor.execute(sql, (courseID, userID, ""))
-    db.commit()
+    if request.method == 'POST':
+        userID = request.form.get('userID')
+        courseID = request.form.get('courseID')
+        db = get_db()
+        cursor = db.cursor()
+        sql = "INSERT INTO record (courseID, memberID, evaluate) VALUES (?, ?, ?)"
+        cursor.execute(sql, (courseID, userID, ""))
+        db.commit()
 
     return redirect(url_for('my_course', username=userID))
 
