@@ -8,7 +8,7 @@
   </head>
   <body>
 	<h1>所有課程</h1>
-	<table width="50%">
+	<table width="60%">
 	  <thead align="left">
 	    <tr>
 	      <th>課程</th>
@@ -16,6 +16,8 @@
 	      <th>上課時間</th>
 	      <th>開課日期</th>
 	      <th>結業日期</th>
+	      <th>價格</th>
+	      <th>會員金額(暫時)</th>
 	      <th width="100">報名資訊</th>
 	    </tr>
 	  </thead>
@@ -29,6 +31,8 @@
 		<!-- <td>{{ course.Time }}</td> -->
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>
+		  <td>{{ course.Cost }}</td>
+		  <td>{{ user_data.money }}</td>
           {% if course.Condition == 1 %}
               <td><input type="button" disabled="disabled" value="已報名"></td>
           {% elif course.Condition == 2 %}
@@ -36,9 +40,11 @@
           {% elif course.Condition == 3 %}
               <td><input type="button" disabled="disabled" value="期限不足"></td>
           {% else %}
-              <form action="/insert" method="post" onsubmit="return confirmRegistration()">
+              <form action="/insert" method="post" onsubmit="return confirmRegistration({{user_data.money}}, {{course.Cost}})">
                 <input type="hidden" name="courseID" value="{{ course.courseID }}">
-                <input type="hidden" name="userID" value="{{ userID }}">
+                <input type="hidden" name="userID" value="{{ user_data.ID }}">
+                <input type="hidden" name="userMoney" value="{{ user_data.money }}">
+                <input type="hidden" name="courseCost" value="{{ course.Cost }}">
                 <td><input type="submit" value="我要報名"></td>
               </form>
           {% endif %}
@@ -50,14 +56,21 @@
 	<hr/>
 
 	<script>
-		function confirmRegistration() {
-		  var confirmed = confirm("你確定要報名嗎？");
-		  if(!confirmed){
-			return false;
-		  }
-		
-		  alert("報名成功！");
-		  return true;
+		function confirmRegistration(userMoney,courseCost) {
+          if(userMoney < courseCost){
+              alert("購物金不足，請至櫃台進行儲值後再報名！");
+              return false;
+          }
+          else{
+
+              var confirmed = confirm("你確定要報名嗎？");
+              if(!confirmed){
+                return false;
+              }
+            
+              alert("報名成功！");
+              return true;
+          }
 		}
 	</script>
   </body>

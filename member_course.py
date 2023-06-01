@@ -24,7 +24,21 @@ def login():
 @app.route('/course/<username>')
 def all_course(username):
     db = get_db()
-    sql = "SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, c.courseID FROM course AS c, coach AS ch WHERE c.dateStart > date(\'now\') and c.coachID = ch.coachID ORDER BY c.dateStart"
+    money_sql = """SELECT voucher
+                   FROM member
+                   WHERE memberID = ?"""
+    cursor = db.cursor()
+    cursor.execute(money_sql, (username,))
+    money_data = cursor.fetchone()
+    user_data = {
+        'ID':username,
+        'money':money_data[0]
+    }
+
+    sql = """SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, c.courseID, c.cost
+             FROM course AS c, coach AS ch
+             WHERE c.dateStart > date(\'now\') and c.coachID = ch.coachID
+             ORDER BY c.dateStart"""
     data = db.execute(sql).fetchall()
     course_data = []
     for d in data:
@@ -48,11 +62,12 @@ def all_course(username):
             'Start':d[4],
             'End':d[5],
             'Condition':cond,
-            'courseID':d[6]
+            'courseID':d[6],
+            'Cost':d[7]
         })
     return render_template(
         'all_course.html',
-        userID = username,
+        user_data = user_data,
         course_data = course_data
     )
 
@@ -105,11 +120,20 @@ def save_comment():
 def sign_up():
     if request.method == 'POST':
         userID = request.form.get('userID')
+        userMoney = int(request.form.get('userMoney'))
         courseID = request.form.get('courseID')
+        courseCost = int(request.form.get('courseCost'))
+
         db = get_db()
         cursor = db.cursor()
-        sql = "INSERT INTO record (courseID, memberID, evaluate) VALUES (?, ?, ?)"
+        sql = """INSERT INTO record (courseID, memberID, evaluate)
+                 VALUES (?, ?, ?)"""
         cursor.execute(sql, (courseID, userID, ""))
+        money_sql = """UPDATE member
+                       SET voucher = ?
+                       WHERE memberID = ?"""
+        cursor.execute(money_sql, (userMoney-courseCost, userID))
+
         db.commit()
 
     return redirect(url_for('my_course', username=userID))
