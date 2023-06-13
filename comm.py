@@ -1,7 +1,7 @@
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 
-app = Flask(__name__)
+comm_router = Blueprint("comm_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 
 def get_db():
@@ -12,7 +12,7 @@ def get_db():
 		db.execute("PRAGMA foreign_keys = ON")
 	return db
 
-@app.route('/', methods = ['GET','POST'])
+@comm_router.route('/commdity', methods = ['GET','POST'])
 def commodity():
     db = get_db()
     sql = "SELECT commodityID, name, cost, store FROM commodity WHERE store > 0"
@@ -32,7 +32,7 @@ def commodity():
         comm_data = comm_data,
     )
 
-@app.route('/buy', methods=['POST'])
+@comm_router.route('/buy', methods=['POST'])
 def buy_comm():
 
     buynum = request.form.get('buynum')
@@ -71,11 +71,11 @@ def buy_comm():
     )
 
 
-@app.teardown_appcontext
+#@comm_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    comm_router.run(debug=True)

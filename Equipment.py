@@ -1,9 +1,9 @@
 import csv
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 from datetime import datetime
 
-app = Flask(__name__)
+equipment_router = Blueprint("equipment_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 
 
@@ -16,13 +16,13 @@ def get_db():
     return db
 
 #查詢要借的器材
-@app.route('/', methods=['GET', 'POST'])
+@equipment_router.route('/searchEquip', methods=['GET', 'POST'])
 def search():
     return render_template('search_equip.html')
     
 
 #找器材名稱、可借數量傳到前端顯示
-@app.route('/equip',methods=['POST'])
+@equipment_router.route('/equip',methods=['POST'])
 def equipment():
 
     db = get_db()
@@ -45,7 +45,7 @@ def equipment():
     )
 
 #前端輸入的租借資訊，更改在db
-@app.route('/modify',methods=['POST'])
+@equipment_router.route('/modify',methods=['POST'])
 def modify():
     db = get_db()
     cur = db.cursor()
@@ -83,7 +83,7 @@ def modify():
     return render_template('search_equip.html')
 
 
-@app.teardown_appcontext
+#@equipment_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
@@ -91,4 +91,4 @@ def close_connection(exception):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    equipment_router.run(debug=True)

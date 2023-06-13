@@ -1,9 +1,9 @@
 import csv
 import sqlite3
-from flask import Flask, g
+from flask import Flask, g, Blueprint
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 # db = sqlite3.connect(SQLITE_DB_PATH)
 # c = db.execute('Select * from coach')
@@ -19,14 +19,14 @@ def get_db():
     return db
 
 
-@app.teardown_appcontext
+#@coach_courseOfferings_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@coach_courseOfferings_router.route('/courseOfferings', methods=['GET', 'POST'])
 def index():
     coachID = 'T123'
     if request.method == 'POST':
@@ -62,4 +62,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    coach_courseOfferings_router.run(debug=True)
