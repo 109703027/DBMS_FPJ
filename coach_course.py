@@ -16,7 +16,7 @@ def get_db():
 @coach_course_router.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return redirect(url_for('coach_course', username=request.form.get('username')))
+        return redirect(url_for('coach_course_router.coach_course', username=request.form.get('username')))
     return render_template('coach_login.html')
 
 @coach_course_router.route('/coachcourse/<username>')

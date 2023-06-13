@@ -43,7 +43,7 @@ def login():
 		return redirect(url_for('app_router.base'))
 	else:
 		# Login failed, redirect back to the login form with an error message
-		return redirect(url_for('wrong'))
+		return redirect(url_for('app_router.wrong'))
 
 
 @app_router.route('/register', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def register():
 		db.commit()
 		
 		# 注册成功后重定向到登录页面
-		return redirect(url_for('login'))
+		return redirect(url_for('app_router.login'))
 	
 	return render_template('register.html')
 

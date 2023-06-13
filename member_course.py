@@ -16,7 +16,7 @@ def get_db():
 @member_course_router.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return redirect(url_for('all_course', username=request.form.get('username')))
+        return redirect(url_for('member_course_router.all_course', username=request.form.get('username')))
 
     return render_template('mem_login.html')
 
@@ -114,7 +114,7 @@ def save_comment():
     cursor.execute(sql, (comment, courseID, userID))
     db.commit()
 
-    return redirect(url_for('my_course', username=userID))
+    return redirect(url_for('member_course_router.my_course', username=userID))
 
 @member_course_router.route('/insert', methods=['GET', 'POST'])
 def sign_up():
@@ -136,7 +136,7 @@ def sign_up():
 
         db.commit()
 
-    return redirect(url_for('my_course', username=userID))
+    return redirect(url_for('member_course_router.my_course', username=userID))
 
 #@member_course_router.teardown_appcontext
 def close_connection(exception):
