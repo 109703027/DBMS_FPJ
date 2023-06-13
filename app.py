@@ -40,7 +40,7 @@ def login():
 
 	if result:
 		# Login successful, redirect to a success page
-		return redirect(url_for('app_router.base'))
+		return redirect(url_for('app_router.frame'))
 	else:
 		# Login failed, redirect back to the login form with an error message
 		return redirect(url_for('app_router.wrong'))
@@ -77,6 +77,10 @@ def register():
 	
 	return render_template('register.html')
 
+
+@app_router.route('/frame')
+def frame():
+	return render_template('frame.html')
 
 @app_router.route('/base')
 def base():
