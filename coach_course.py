@@ -1,8 +1,8 @@
 import csv
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 
-app = Flask(__name__)
+coach_course_router = Blueprint("coach_course_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 
 def get_db():
@@ -13,13 +13,13 @@ def get_db():
         db.execute("PRAGMA foreign_keys = ON")
     return db
 
-@app.route('/', methods=['GET', 'POST'])
+@coach_course_router.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         return redirect(url_for('coach_course', username=request.form.get('username')))
     return render_template('coach_login.html')
 
-@app.route('/coachcourse/<username>')
+@coach_course_router.route('/coachcourse/<username>')
 def coach_course(username):
     db = get_db()
     sql = "SELECT distinct c.courseID, c.courseTitle, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, record.evaluate               FROM course as c, coach, record                                                                                             WHERE c.coachID = ? and c.courseID = record.courseID                                                                        ORDER BY c.dateStart desc, record.evaluate desc"
@@ -56,11 +56,11 @@ def coach_course(username):
         couchcourse_data = couchcourse_data
     )
 
-@app.teardown_appcontext
+#@coach_course_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    coach_course_router.run(debug=True)

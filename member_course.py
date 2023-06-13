@@ -1,8 +1,8 @@
 import csv
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 
-app = Flask(__name__)
+member_course_router = Blueprint("member_course_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 
 def get_db():
@@ -13,7 +13,7 @@ def get_db():
         db.execute("PRAGMA foreign_keys = ON")
     return db
 
-@app.route('/', methods=['GET', 'POST'])
+@member_course_router.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         return redirect(url_for('all_course', username=request.form.get('username')))
@@ -21,7 +21,7 @@ def login():
     return render_template('mem_login.html')
 
 
-@app.route('/course/<username>')
+@member_course_router.route('/course/<username>')
 def all_course(username):
     db = get_db()
     money_sql = """SELECT voucher
@@ -71,7 +71,7 @@ def all_course(username):
         course_data = course_data
     )
 
-@app.route('/my_course/<username>')
+@member_course_router.route('/my_course/<username>')
 def my_course(username):
     db = get_db()
     sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate, C.courseID
@@ -101,7 +101,7 @@ def my_course(username):
         course_data = course_data
     )
 
-@app.route('/save', methods=['POST'])
+@member_course_router.route('/save', methods=['POST'])
 def save_comment():
     comment = request.form.get('comment')
     userID = request.form.get('userID')
@@ -116,7 +116,7 @@ def save_comment():
 
     return redirect(url_for('my_course', username=userID))
 
-@app.route('/insert', methods=['GET', 'POST'])
+@member_course_router.route('/insert', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':
         userID = request.form.get('userID')
@@ -138,11 +138,11 @@ def sign_up():
 
     return redirect(url_for('my_course', username=userID))
 
-@app.teardown_appcontext
+#@member_course_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    member_course_router.run(debug=True)

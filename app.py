@@ -1,10 +1,11 @@
 import sqlite3
-from flask import Flask, g
+from flask import Flask, g, Blueprint
 from flask import render_template, request, redirect, url_for
 import datetime
 
 #hi
-app = Flask(__name__)
+#app_router = Flask(__name__)
+app_router = Blueprint("app_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 
 
@@ -17,15 +18,15 @@ def get_db():
 	return db
 
 
-@app.route('/')
+@app_router.route('/')
 def start():
 	return render_template('login.html')
 
-@app.route('/login_error')
+@app_router.route('/login_error')
 def wrong():
 	return render_template('wrong.html')
 
-@app.route('/login', methods=['POST'])
+@app_router.route('/login', methods=['POST'])
 def login():
 	username = request.form['Uname']
 	password = request.form['Pass']
@@ -39,13 +40,13 @@ def login():
 
 	if result:
 		# Login successful, redirect to a success page
-		return redirect(url_for('base'))
+		return redirect(url_for('app_router.base'))
 	else:
 		# Login failed, redirect back to the login form with an error message
 		return redirect(url_for('wrong'))
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app_router.route('/register', methods=['GET', 'POST'])
 def register():
 	if request.method == 'POST':
 		name = request.form['name']
@@ -77,12 +78,12 @@ def register():
 	return render_template('register.html')
 
 
-@app.route('/base')
+@app_router.route('/base')
 def base():
 	return render_template('base.html')
 
 
-@app.teardown_appcontext
+#@app_router.teardown_appcontext
 def close_connection(exception):
 	db = getattr(g, '_database', None)
 	if db is not None:
@@ -90,4 +91,4 @@ def close_connection(exception):
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app_router.run(debug=True)
