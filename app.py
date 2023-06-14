@@ -23,8 +23,8 @@ def start():
 	return render_template('login.html')
 
 @app_router.route('/login_error')
-def wrong():
-	return render_template('wrong.html')
+def login_wrong():
+	return render_template('login_wrong.html')
 
 @app_router.route('/login', methods=['POST'])
 def login():
@@ -43,7 +43,7 @@ def login():
 		return redirect(url_for('app_router.frame'))
 	else:
 		# Login failed, redirect back to the login form with an error message
-		return redirect(url_for('app_router.wrong'))
+		return redirect(url_for('app_router.login_wrong'))
 
 
 @app_router.route('/register', methods=['GET', 'POST'])
@@ -82,9 +82,9 @@ def register():
 def frame():
 	return render_template('frame.html')
 
-@app_router.route('/base')
-def base():
-	return render_template('base.html')
+@app_router.route('/member_base')
+def member_base():
+	return render_template('member_base.html')
 
 
 #@app_router.teardown_appcontext
