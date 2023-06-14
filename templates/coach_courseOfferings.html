@@ -44,42 +44,6 @@
         updateWeekday();
       }
 
-      // function updateEndDateOptions() {
-      //   var startDate = new Date(document.getElementById('start_date').value);
-      //   var endDateSelect = document.getElementById('end_date');
-
-      //   // 清空結課日期的選項
-      //   endDateSelect.innerHTML = '';
-
-      //   // 取得開課日期的下一天日期
-      //   var endDate = new Date(startDate);
-      //   endDate.setDate(endDate.getDate() + 1);
-
-      //   // 建立結課日期的選項
-      //   while (endDate.getMonth() === startDate.getMonth()) {
-      //     var option = document.createElement('option');
-      //     var day = endDate.getDate();
-      //     var month = endDate.getMonth() + 1; // getMonth() 回傳值為 0-11，所以需要 +1
-      //     var year = endDate.getFullYear();
-      //     var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
-      //     option.value = formattedDate;
-      //     option.text = formattedDate;
-      //     endDateSelect.appendChild(option);
-
-      //     endDate.setDate(endDate.getDate() + 1);
-      //   }
-        
-      //   function formatDate(date) {
-      //     var day = date.getDate();
-      //     var month = date.getMonth() + 1;
-      //     var year = date.getFullYear();
-      //     return year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
-      //   }
-
-      //   endDateSelect.min = formatDate(endDate);
-      //   updateWeekday();
-      // }
-
       function updateEndTimeOptions() {
         var startTime = document.getElementById('start_time').value;
         var endTimeSelect = document.getElementById('end_time');
