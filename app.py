@@ -22,9 +22,11 @@ def get_db():
 def start():
 	return render_template('login.html')
 
+
 @app_router.route('/login_error')
 def login_wrong():
 	return render_template('login_wrong.html')
+
 
 @app_router.route('/login', methods=['POST'])
 def login():
@@ -42,6 +44,13 @@ def login():
 		# Login successful, redirect to a success page
 		return redirect(url_for('app_router.frame'))
 	else:
+		query = "SELECT * FROM member WHERE memberID = ? AND birth = ?"
+		cursor = db.execute(query, (username, password))
+		result = cursor.fetchone()
+		if result:
+			# Login successful, redirect to a success page
+			return redirect(url_for('app_router.frame'))
+	
 		# Login failed, redirect back to the login form with an error message
 		return redirect(url_for('app_router.login_wrong'))
 
