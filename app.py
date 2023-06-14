@@ -42,14 +42,14 @@ def login():
 
 	if result:
 		# Login successful, redirect to a success page
-		return redirect(url_for('app_router.frame'))
+		return redirect(url_for('app_router.frame', username=username))
 	else:
-		query = "SELECT * FROM member WHERE memberID = ? AND birth = ?"
+		query = "SELECT * FROM coach WHERE coachID = ? AND birth = ?"
 		cursor = db.execute(query, (username, password))
 		result = cursor.fetchone()
 		if result:
 			# Login successful, redirect to a success page
-			return redirect(url_for('app_router.frame'))
+			return redirect(url_for('app_router.frame', username=username))
 	
 		# Login failed, redirect back to the login form with an error message
 		return redirect(url_for('app_router.login_wrong'))
@@ -87,13 +87,29 @@ def register():
 	return render_template('register.html')
 
 
-@app_router.route('/frame')
-def frame():
-	return render_template('frame.html')
+@app_router.route('/frame/<username>')
+def frame(username):
+    if username[0] == "M":
+        root = "/member_base/"+username
+        start_root = "/my_course/"+username
+    else:
+        root = "/coach_base/"+username
+        start_root = "/coachcourse/"+username
 
-@app_router.route('/member_base')
-def member_base():
-	return render_template('member_base.html')
+    return render_template(
+        'frame.html',
+        root = root,
+        start_root = start_root
+    )
+
+@app_router.route('/member_base/<username>')
+def member_base(username):
+    print("a=",username)
+    return render_template('member_base.html', root="/my_course/"+username)
+
+@app_router.route('/coach_base/<username>')
+def coach_base(username):
+	return render_template('coach_base.html', root="/coachcourse/"+username)
 
 
 #@app_router.teardown_appcontext
