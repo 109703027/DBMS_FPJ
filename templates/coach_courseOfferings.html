@@ -21,6 +21,59 @@
         return true;
       }
 
+      function updateWeekday(){
+        var dateInput = document.getElementById('start_date');
+        var weekdayInput = document.getElementById('weekday');
+        var selectedDate = new Date(dateInput.value);
+        var weekday = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+        weekdayInput.value = weekday.toLowerCase();
+      }
+
+      function setOnHourTime(inputID){
+        var inputTime = document.getElementById(inputID);
+        var hour = Math.floor(parseFloat(inputTime.value));
+        inputTime.value = hour.toFixed(0);
+      }
+
+      function updateEndDateOptions() {
+        var startDate = new Date(document.getElementById('start_date').value);
+        startDate.setDate(startDate.getDate() + 1);
+        var minEndDate = startDate.toISOString().split("T")[0];
+        document.getElementById('end_date').setAttribute("min", minEndDate);
+        updateWeekday();
+      }
+
+      function updateEndTimeOptions() {
+        var startTime = document.getElementById('start_time').value;
+        var endTimeSelect = document.getElementById('end_time');
+
+        // 清空下課時間的選項
+        endTimeSelect.innerHTML = '';
+
+        // 建立下課時間的選項
+        for (var i = parseInt(startTime) + 1; i <= 23; i++) {
+          var option = document.createElement('option');
+          option.value = i < 10 ? '0' + i : '' + i;
+          option.text = option.value + ':00';
+          endTimeSelect.appendChild(option);
+        }
+      }
+
+      function checkEndTime(start, end) {
+        var startTime = document.getElementById(start).value;
+        var endTime = document.getElementById(end).value;
+
+        var startHour = parseInt(startTime);
+        var endHour = parseInt(endTime);
+
+        if (endHour <= startHour) {
+          alert("下課時間必須大於上課時間");
+          document.getElementById(end).value = '';
+        }
+      }
+
+    
     </script>
   </head>
 
@@ -32,27 +85,71 @@
     <input type="number" id="price" name="price" placeholder="請輸入課程價錢" required><br>
 
     <label for="start_date">開課日期：</label>
-    <input type="date" id="start_date" name="start_date" placeholder="請輸入開課日期" required><br>
+    <input type="date" id="start_date" name="start_date" placeholder="請輸入開課日期" required onchange="updateEndDateOptions()"><br>
     
     <label for="end_date">結業日期：</label>
-    <input type="date" id="end_date" name="end_date" placeholder="請輸入結業日期" required><br>
+    <input type="date" id="end_date" name="end_date" placeholder="請輸入結業日期"><br>
 
-    <label for="weekday">選擇星期：</label>
-      <select id="weekday" name="weekday">
-        <option value="monday">星期一</option>
-        <option value="tuesday">星期二</option>
-        <option value="wednesday">星期三</option>
-        <option value="thursday">星期四</option>
-        <option value="friday">星期五</option>
-        <option value="saturday">星期六</option>
-        <option value="sunday">星期日</option>
-    </select><br>
+    <label for="weekday">上課星期：</label>
+    <input type="text" id="weekday" name="weekday" readonly style="background-color: #d0d0d0d3"><br>
 
     <label for="start_time">上課時間：</label>
-    <input type="time" id="start_time" name="start_time" placeholder="請輸入上課時間" required><br>
+    <select id="start_time" name="start_time" requried onchange="updateEndTimeOptions()">
+      <option value=""></option>
+      <option value="00">00:00</option>
+      <option value="01">01:00</option>
+      <option value="02">02:00</option>
+      <option value="03">03:00</option>
+      <option value="04">04:00</option>
+      <option value="05">05:00</option>
+      <option value="06">06:00</option>
+      <option value="07">07:00</option>
+      <option value="08">08:00</option>
+      <option value="09">09:00</option>
+      <option value="10">10:00</option>
+      <option value="11">11:00</option>
+      <option value="12">12:00</option>
+      <option value="13">13:00</option>
+      <option value="14">14:00</option>
+      <option value="15">15:00</option>
+      <option value="16">16:00</option>
+      <option value="17">17:00</option>
+      <option value="18">18:00</option>
+      <option value="19">19:00</option>
+      <option value="20">20:00</option>   
+      <option value="21">21:00</option>
+      <option value="22">22:00</option> 
+      <option value="23">23:00</option>
+    </select><br>
 
     <label for="end_time">下課時間：</label>
-    <input type="time" id="end_time" name="end_time" placeholder="請輸入下課時間" required><br>
+    <select id="end_time" name="end_time" required onchange="checkEndTime('start_time','end_time')" >
+      <option value=""></option>
+      <option value="00">00:00</option>
+      <option value="01">01:00</option>
+      <option value="02">02:00</option>
+      <option value="03">03:00</option>
+      <option value="04">04:00</option>
+      <option value="05">05:00</option>
+      <option value="06">06:00</option>
+      <option value="07">07:00</option>
+      <option value="08">08:00</option>
+      <option value="09">09:00</option>
+      <option value="10">10:00</option>
+      <option value="11">11:00</option>
+      <option value="12">12:00</option>
+      <option value="13">13:00</option>
+      <option value="14">14:00</option>
+      <option value="15">15:00</option>
+      <option value="16">16:00</option>
+      <option value="17">17:00</option>
+      <option value="18">18:00</option>
+      <option value="19">19:00</option>
+      <option value="20">20:00</option>   
+      <option value="21">21:00</option>
+      <option value="22">22:00</option> 
+      <option value="23">23:00</option>
+    </select><br>
         
     <input type="submit" value="提交">
   </form>

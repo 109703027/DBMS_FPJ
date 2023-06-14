@@ -1,8 +1,9 @@
 import csv
 import sqlite3
-from flask import Flask, g, Blueprint
-from flask import Flask, render_template, request
+from flask import Flask, g
+from flask import Flask, render_template, request, Blueprint
 
+# app = Flask(__name__)
 coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 # db = sqlite3.connect(SQLITE_DB_PATH)
@@ -19,14 +20,14 @@ def get_db():
     return db
 
 
-#@coach_courseOfferings_router.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+# @coach_courseOfferings_router.teardown_appcontext
+# def close_connection(exception):
+#     db = getattr(g, '_database', None)
+#     if db is not None:
+#         db.close()
 
 
-@coach_courseOfferings_router.route('/courseOfferings', methods=['GET', 'POST'])
+@coach_courseOfferings_router.route('/', methods=['GET', 'POST'])
 def index():
     coachID = 'T123'
     if request.method == 'POST':
@@ -45,11 +46,12 @@ def index():
         # 處理網站上收到的課程資料
         # print(course_number, course_title, course_price, course_start_date, course_end_date, course_weekday, course_start_time, course_end_time)
         course_title = course_title.capitalize()
-        course_start_time = course_start_time.replace(':','')
-        course_end_time = course_end_time.replace(':','')
-        course_time = str(course_start_time) + '-' + str(course_end_time)
+        course_start_time = str(course_start_time) + "00"
+        course_end_time = str(course_end_time) + "00"
+        course_time = course_start_time + '-' + course_end_time
         course_weekday = course_weekday[:3].capitalize()
 
+        # print(course_number, course_title, course_price, course_start_date, course_end_date, course_weekday, course_time, coachID)
         course_cursor = db.cursor()
         course_sql = "INSERT INTO course (courseID, courseTitle, cost, dateStart, dateEnd, courseDay, courseTime, coachID) \
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)"

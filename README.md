@@ -21,7 +21,7 @@ pip3 install -r requirements.txt
 ## 執行
 
 ``` 
-$ python3 app.py
+$ python3 main.py
 ```
 
 ## 小組資訊
