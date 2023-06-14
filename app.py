@@ -104,7 +104,11 @@ def frame(username):
 
 @app_router.route('/member_base/<username>')
 def member_base(username):
-    return render_template('member_base.html', root="/my_course/"+username)
+    return render_template(
+                'member_base.html',
+                root="/my_course/"+username,
+                course_root = "/course/"+username
+    )
 
 @app_router.route('/coach_base/<username>')
 def coach_base(username):
