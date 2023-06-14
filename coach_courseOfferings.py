@@ -4,7 +4,7 @@ from flask import Flask, g
 from flask import Flask, render_template, request, Blueprint
 
 # app = Flask(__name__)
-coach_courseOfferings_router = Blueprint("comm_router", __name__)
+coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
 # db = sqlite3.connect(SQLITE_DB_PATH)
 # c = db.execute('Select * from coach')
