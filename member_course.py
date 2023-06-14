@@ -82,6 +82,7 @@ def my_course(username):
     cursor.execute(sql, (username,))
     data = cursor.fetchall()
     course_data = []
+    print(username)
 
     for d in data:
         course_data.append({
