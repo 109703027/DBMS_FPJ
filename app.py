@@ -87,6 +87,32 @@ def register():
 	return render_template('register.html')
 
 
+@app_router.route('/member_profile/<username>', methods=['GET', 'POST'])
+def member_profile(username):
+    db = get_db()
+    query = "SELECT * FROM member WHERE memberID = ?"
+    data = db.execute(query, (username,)).fetchall()
+    member_data = []
+    for d in data:
+        
+        member_data.append({
+            'id':d[0],
+            'name':d[1],
+            'sex':d[2],
+            'birth':d[3],
+            'phone':d[4],
+            'email':d[5],
+            'address':d[6],
+            'memExp':d[7],
+            'voucher':d[8]
+        })
+    
+    return render_template(
+        'member_profile.html',
+        member_data = member_data,
+    )
+
+
 @app_router.route('/frame/<username>')
 def frame(username):
     if username[0] == "M":
@@ -102,13 +128,16 @@ def frame(username):
         start_root = start_root
     )
 
+
 @app_router.route('/member_base/<username>')
 def member_base(username):
     return render_template(
                 'member_base.html',
                 root="/my_course/"+username,
-                course_root = "/course/"+username
+                course_root = "/course/"+username,
+				profile_root = "/member_profile/"+username
     )
+
 
 @app_router.route('/coach_base/<username>')
 def coach_base(username):
