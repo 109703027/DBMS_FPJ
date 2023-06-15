@@ -113,6 +113,27 @@ def member_profile(username):
     )
 
 
+@app_router.route('/coach_profile/<username>', methods=['GET', 'POST'])
+def coach_profile(username):
+    db = get_db()
+    query = "SELECT * FROM coach WHERE coachID = ?"
+    data = db.execute(query, (username,)).fetchall()
+    coach_data = []
+    for d in data:
+        
+        coach_data.append({
+            'id':d[0],
+            'name':d[1],
+            'expertise':d[2],
+            'experience':d[3],
+            'birth':d[4],
+        })
+    
+    return render_template(
+        'coach_profile.html',
+        coach_data = coach_data,
+    )
+
 @app_router.route('/frame/<username>')
 def frame(username):
     if username[0] == "M":
@@ -136,12 +157,17 @@ def member_base(username):
                 root="/my_course/"+username,
                 course_root = "/course/"+username,
 				profile_root = "/member_profile/"+username
+
     )
 
 
 @app_router.route('/coach_base/<username>')
 def coach_base(username):
-	return render_template('coach_base.html', root="/coachcourse/"+username)
+	return render_template(
+		'coach_base.html',
+		root="/coachcourse/"+username,
+		coach_root = "/coach_profile/"+username
+)
 
 
 #@app_router.teardown_appcontext
