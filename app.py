@@ -182,8 +182,9 @@ def member_base(username):
                 'member_base.html',
                 root="/my_course/"+username,
                 course_root = "/course/"+username,
-				profile_root = "/member_profile/"+username
-
+				profile_root = "/member_profile/"+username,
+				comm_root = "/commodity/"+username
+				# eq_root = "/equipment_router"+username
     )
 
 
@@ -192,7 +193,8 @@ def coach_base(username):
 	return render_template(
 		'coach_base.html',
 		root="/coachcourse/"+username,
-		coach_root = "/coach_profile/"+username
+		coach_root = "/coach_profile/"+username,
+		# eq_root = "/equipment_router"+username
 )
 
 
