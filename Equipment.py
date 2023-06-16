@@ -130,7 +130,7 @@ def borrow():
 
 
 
-@equipment_router.teardown_appcontext
+#@equipment_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
