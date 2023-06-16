@@ -20,7 +20,7 @@ def get_db():
 
 @app_router.route('/')
 def start():
-	return render_template('login.html')
+	return render_template('login_new.html')
 
 
 @app_router.route('/login_error')
