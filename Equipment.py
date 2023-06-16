@@ -46,7 +46,7 @@ def equipment():
             'dateBorrow':date_value,
             'timeBorrow':TimeS
         })
-
+    print(equipment_data)
     db.commit()
 
     return render_template(
