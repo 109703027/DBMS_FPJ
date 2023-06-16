@@ -1,4 +1,3 @@
-#忘記賬號，填寫出錯的html
 #看見賬號後的確定按鈕
 import sqlite3
 from flask import Flask, g, Blueprint
@@ -29,6 +28,10 @@ def start():
 def login_wrong():
 	return render_template('login_wrong.html')
 
+
+@app_router.route('/forget_error')
+def forget_wrong():
+	return render_template('forget_wrong.html')
 
 @app_router.route('/login', methods=['POST'])
 def login():
@@ -102,10 +105,11 @@ def forget_id():
 		query = "SELECT memberID FROM member WHERE name = ? AND birth = ? AND phone = ? AND email = ?"
 		cursor = db.execute(query, (name, birth, phone, email))
 		result = cursor.fetchone()
-		print(result[0])
 
 		if result:
 			return render_template('show_id.html', member_id = result[0])
+		else:
+			return redirect(url_for('app_router.forget_wrong'))
 	return render_template('forget_id.html')
 
 
