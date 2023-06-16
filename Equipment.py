@@ -16,12 +16,12 @@ def get_db():
         db.execute("PRAGMA foreign_keys = ON")
     return db
 
-@app.route('/', methods=['GET', 'POST'])
+@equipment_router.route('/', methods=['GET', 'POST'])
 def start_equip():
     return render_template('e2.html')
 
 #顯示可借的
-@app.route('/search',methods=['POST'])
+@equipment_router.route('/search',methods=['POST'])
 def equipment():
     db = get_db()
     cur = db.cursor()
@@ -55,7 +55,7 @@ def equipment():
     )
 
 
-@app.route('/borrow',methods=['POST'])
+@equipment_router.route('/borrow',methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
@@ -130,7 +130,7 @@ def borrow():
 
 
 
-@app.teardown_appcontext
+@equipment_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
