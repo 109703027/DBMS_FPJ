@@ -1,0 +1,64 @@
+<!--丟在equipment.html-->
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width">
+	    <title>健身房管理平台 - 所有設備</title>
+    </head>
+    
+        <h1>查詢器材</h1>
+        <body>
+            <form  action="/search" method="POST"  >   
+                <p>
+                    <label for="">日期 </label>
+                    <input type="date" id="date" name="date">
+                </p>
+
+                <p>
+                    <label for="">時間 </label>
+                    <input type="number" name="TimeS" value='0' min='0'  max='23' placeholder="起">
+                    <input type='submit' >
+                </p>
+
+            
+
+
+        <table width="50%" >
+            <thead align="left">
+                <tr>
+                <th>設備</th>
+                <th>可用數量</th>
+                <th>租借數量</th>
+    
+                </tr>
+            </thead>
+			
+            <tbody>
+                {% for equip in equipment_data %}
+                    <tr height="50px">
+                       <td>{{ equip.Equipment }}</td>
+                       <td>{{ equip.count }}</td>
+                       <form action="/borrow" method="POST">
+                            <input type="hidden" name="Equipment" value="{{ equip.Equipment  }}">
+                            <input type="hidden" name="DateBorrow" value="{{ equip.dateBorrow }}">
+                            <input type="hidden" name="TimeBorrow" value="{{ equip.timeBorrow  }}">
+                            <td><input type='number'  id='Quantity' name='Quantity' value='1' min='1'  max='{{ equip.count }}' "/> <input type='submit' ></td>
+                       </form>                             
+                    </tr>
+                
+                {% endfor %}
+
+
+                  
+            </tbody>
+            
+            <hr/>
+            
+			
+			
+        </table>
+
+</html>
+
+    

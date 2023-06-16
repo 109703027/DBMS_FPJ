@@ -22,7 +22,7 @@ def login():
 @coach_course_router.route('/coachcourse/<username>')
 def coach_course(username):
     db = get_db()
-    sql = "SELECT distinct c.courseID, c.courseTitle, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, record.evaluate               FROM course as c, coach, record                                                                                             WHERE c.coachID = ? and c.courseID = record.courseID                                                                        ORDER BY c.dateStart desc, record.evaluate desc"
+    sql = "SELECT DISTINCT c.courseID, c.courseTitle, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, record.evaluate FROM course AS c LEFT JOIN record ON c.courseID = record.courseID WHERE c.coachID = ? ORDER BY c.dateStart DESC, record.evaluate DESC"
     cursor = db.cursor()
     cursor.execute(sql, (username,))
     data = cursor.fetchall()
@@ -30,7 +30,7 @@ def coach_course(username):
 
     prev_id = None
     for d in data:
-        if prev_id is not None and d[6] == '':
+        if d[6] == '' and prev_id == d[0]:
             continue
         course = {
             'ID':d[0],
