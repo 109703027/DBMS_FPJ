@@ -1,11 +1,12 @@
 #改版的
 import csv
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for
+from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 from datetime import datetime
 
-app = Flask(__name__)
+equipment_router = Blueprint("equipment_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
+
 
 def get_db():
     db = getattr(g, '_database', None)
