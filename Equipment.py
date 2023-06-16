@@ -55,7 +55,7 @@ def equipment():
     )
 
 
-@equipment_router.route('/borrow',methods=['POST'])
+#@equipment_router.route('/borrow',methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
