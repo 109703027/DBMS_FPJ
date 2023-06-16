@@ -1,3 +1,5 @@
+#忘記賬號，填寫出錯的html
+#看見賬號後的確定按鈕
 import sqlite3
 from flask import Flask, g, Blueprint
 from flask import render_template, request, redirect, url_for
@@ -85,6 +87,26 @@ def register():
 		return redirect(url_for('app_router.login'))
 	
 	return render_template('register.html')
+
+
+@app_router.route('/forget_id', methods=['GET', 'POST'])
+def forget_id():
+	if request.method == 'POST':
+		name = request.form['name']
+		birth = request.form['birth']
+		phone = request.form['phone']
+		email = request.form['email']
+
+		db = get_db()
+
+		query = "SELECT memberID FROM member WHERE name = ? AND birth = ? AND phone = ? AND email = ?"
+		cursor = db.execute(query, (name, birth, phone, email))
+		result = cursor.fetchone()
+		print(result[0])
+
+		if result:
+			return render_template('show_id.html', member_id = result[0])
+	return render_template('forget_id.html')
 
 
 @app_router.route('/member_profile/<username>', methods=['GET', 'POST'])
