@@ -158,12 +158,25 @@ def coach_profile(username):
     query2 = "SELECT courseID FROM course WHERE coachID = ?"
     data2 = db.execute(query2, (username,)).fetchall()
     coach_course = [row[0] for row in data2]
+    # print(coach_course)
     
     return render_template(
         'coach_profile.html',
         coach_data = coach_data,
 		coach_course = coach_course
     )
+
+
+@app_router.route('/evaluate/<course_id>', methods=['GET', 'POST'])
+def evaluate(course_id):
+    db = get_db()
+    query = "SELECT * FROM record WHERE courseID = ?"
+    data = db.execute(query, (course_id,)).fetchall()
+    # print(data[0])
+    # print('hi')
+
+    return render_template('evaluate.html', course_ev = data)
+
 
 @app_router.route('/frame/<username>')
 def frame(username):
