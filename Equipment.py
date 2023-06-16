@@ -16,15 +16,23 @@ def get_db():
         db.execute("PRAGMA foreign_keys = ON")
     return db
 
-@equipment_router.route('/equipment_router', methods=['GET', 'POST'])
-def start_equip():
-    return render_template('e2.html')
+
+
+
+@equipment_router.route('/equipment_router/<username>', methods=['GET', 'POST'])
+def start_equip(username):
+    print(username)
+    return render_template('e2.html', userID=username)
 
 #顯示可借的
+
+#@equipment_router.route('/search/<username>')
 @equipment_router.route('/search',methods=['POST'])
 def equipment():
     db = get_db()
     cur = db.cursor()
+
+    userID = request.form.get('userID')
 
     date_value=request.form.get('date')
     Date_value = datetime.strptime(date_value, '%Y-%m-%d').strftime('%Y-%m-%d')
@@ -51,14 +59,17 @@ def equipment():
 
     return render_template(
         'e2.html',
+        userID=userID,
         equipment_data= equipment_data
     )
 
-
+#@equipment_router.route('/borrow/<username>',methods=['POST'])
 @equipment_router.route('/borrow',methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
+
+    userID = request.form.get('userID')
 
     DateBorrow=request.form.get('DateBorrow')
     Date_parm=str(DateBorrow)
@@ -91,11 +102,11 @@ def borrow():
             d[0],
         })
     print(equipment_ID)
-    
+    print(userID)
     for d in data :
         insert_sql = "INSERT INTO schedule (equipmentID, type, dateBorrow, timeBorrow,personID) \
                         VALUES (?, ?, ?, ?,?)"
-        cur.execute(insert_sql, (d[0],Equipment_parm , Date_parm, TimeS_parm, 'NULL' ))
+        cur.execute(insert_sql, (d[0],Equipment_parm , Date_parm, TimeS_parm, userID))
 
 
 
@@ -124,6 +135,7 @@ def borrow():
 
     return render_template(
         'e2.html',
+        userID=userID,
         equipment_data= equipment_data
     )
 
