@@ -155,9 +155,14 @@ def coach_profile(username):
             'birth':d[4],
         })
     
+    query2 = "SELECT courseID FROM course WHERE coachID = ?"
+    data2 = db.execute(query2, (username,)).fetchall()
+    coach_course = [row[0] for row in data2]
+    
     return render_template(
         'coach_profile.html',
         coach_data = coach_data,
+		coach_course = coach_course
     )
 
 @app_router.route('/frame/<username>')
