@@ -27,7 +27,7 @@ def get_db():
 #         db.close()
 
 
-@coach_courseOfferings_router.route('/', methods=['GET', 'POST'])
+@coach_courseOfferings_router.route('/Offerings', methods=['GET', 'POST'])
 def index():
     coachID = 'T123'
     if request.method == 'POST':

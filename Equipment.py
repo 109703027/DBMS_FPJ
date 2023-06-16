@@ -16,7 +16,7 @@ def get_db():
         db.execute("PRAGMA foreign_keys = ON")
     return db
 
-@equipment_router.route('/', methods=['GET', 'POST'])
+@equipment_router.route('/equipment_router', methods=['GET', 'POST'])
 def start_equip():
     return render_template('e2.html')
 
@@ -55,7 +55,7 @@ def equipment():
     )
 
 
-#@equipment_router.route('/borrow',methods=['POST'])
+@equipment_router.route('/borrow',methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
@@ -138,4 +138,4 @@ def close_connection(exception):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    equipment_router.run(debug=True)
