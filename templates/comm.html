@@ -7,6 +7,11 @@
     </head>
     <body>
         <h1>周邊商品</h1>
+        <p>您的購物金 : {{ voucher }}</p><input type="hidden" id="voucher" name="voucher" value="{{ voucher }}">
+        <form action="/my_comm" method="POST">
+            <input type="hidden" name="userID" value="{{ userID }}">
+            <td><input type='submit' value="我的清單"></td>
+        </form>
         <table width="50%">
             <thead align="left">
                 <tr>
@@ -24,20 +29,53 @@
                 <td>{{ comm.cost }}</td>
                 <td>{{ comm.store }}</td>
                 <form action="/buy" method="POST">
+                    <input type="hidden" name="userID" value="{{ userID }}">
                     <input type="hidden" name="commid" value="{{ comm.id }}">
-                    <td><input type='number' name='buynum' value='0' min='0'  max='{{ comm.store }}'><input type="submit" value="下單" onclick="buycommodity()"></td>
+                    <input type="hidden" id="cost_{{ comm.id }}" name="cost" value="{{ comm.cost }}">
+                    <td>
+                        {% if comm.store > 0 %}
+                        <input type='number' id="buynum_{{ comm.id }}" name='buynum' value='0' min='0'  max='{{ comm.store }}' required><input type="submit" value="下單" onclick="return buycommodity_{{ comm.id }}()">
+                        {% else %}
+                        <span>無法下單</span>
+                        {% endif %}
+                    </td>
                 </form>
             </tr>
             {% endfor %}
         </tbody>
         </table>
+        {% for comm in comm_data %}
         <script>
-            function buycommodity() {
-              var confirmed = confirm("確定下單？");
-              if (confirmed) {
-                alert("下單成功！");
-              }
+            function buycommodity_{{ comm.id }}() {
+
+                var input = document.getElementById('buynum_{{ comm.id }}');
+                var buynum = parseInt(input.value);
+
+                var input = document.getElementById('cost_{{ comm.id }}');
+                var cost = parseInt(input.value);
+
+                var input = document.getElementById('voucher');
+                var voucher = parseInt(input.value);
+
+                if (buynum != 0) {
+                    var confirmed = confirm("確定下單？");
+                    if ((cost*buynum)>voucher){
+                        alert("購物金不足 !");
+                        return false;
+                    }
+                    if (confirmed) {
+                        alert("下單成功！");
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    alert("下單失敗，請輸入有效的數量。");
+                    return false;
+                }
             }
         </script>
+        {% endfor %}
     </body>
 </html>
