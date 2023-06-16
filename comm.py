@@ -12,14 +12,14 @@ def get_db():
 		db.execute("PRAGMA foreign_keys = ON")
 	return db
 
-@comm_router.route('/', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        return redirect(url_for('comm_router.commodity', username=request.form.get('username')))
+# @comm_router.route('/', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         return redirect(url_for('comm_router.commodity', username=request.form.get('username')))
 
-    return render_template('mem_login.html')
+#     return render_template('mem_login.html')
 
-@comm_router.route('/comm_list/<username>', methods = ['GET','POST'])
+@comm_router.route('/commodity/<username>', methods = ['GET','POST'])
 def commodity(username):
     db = get_db()
     cursor = db.cursor()
@@ -46,7 +46,7 @@ def commodity(username):
         'comm.html',
         userID = username,
         voucher = voucher,
-        comm_data = comm_data,
+        comm_data = comm_data
     )
 
 @comm_router.route('/my_comm', methods = ['GET','POST'])
@@ -66,7 +66,7 @@ def my_comm():
     return render_template(
         'my_comm.html',
         userID = userID,
-        comm_data = comm_data,
+        comm_data = comm_data
     )
 
 @comm_router.route('/buy', methods=['GET','POST'])
@@ -122,7 +122,7 @@ def buy_comm():
         'comm.html',
         userID = userID,
         voucher = voucher,
-        comm_data = comm_data,
+        comm_data = comm_data
     )
 
 
