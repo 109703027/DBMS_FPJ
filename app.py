@@ -87,7 +87,7 @@ def register():
 		db.commit()
 		
 		# 注册成功后重定向到登录页面
-		return redirect(url_for('app_router.login'))
+		return render_template('register_success.html', member_id = memberID)
 	
 	return render_template('register.html')
 
