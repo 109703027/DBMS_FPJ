@@ -32,6 +32,13 @@
 
             {% endfor %}
         </table>
+        <br>
+        <h2>教練課程清單</h2>
+        <ul>
+            {% for course_id in coach_course %}
+                <li>{{ course_id }}</li>
+            {% endfor %}
+        </ul>
 	</body>
 </html>
 
