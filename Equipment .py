@@ -55,7 +55,7 @@ def equipment():
     )
 
 
-#@equipment_router.route('/borrow',methods=['POST'])
+@equipment_router.route('/borrow',methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
@@ -138,4 +138,5 @@ def close_connection(exception):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    equipment_router.run(debug=True)
+
