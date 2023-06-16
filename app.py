@@ -199,6 +199,7 @@ def coach_base(username):
 		'coach_base.html',
 		root="/coachcourse/"+username,
 		coach_root = "/coach_profile/"+username,
+		coach_Offerings = "/Offerings/" + username,
 		# eq_root = "/equipment_router"+username
 )
 

@@ -2,6 +2,7 @@ import csv
 import sqlite3
 from flask import Flask, g
 from flask import Flask, render_template, request, Blueprint
+import app
 
 # app = Flask(__name__)
 coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
@@ -27,9 +28,12 @@ def get_db():
 #         db.close()
 
 
-@coach_courseOfferings_router.route('/Offerings', methods=['GET', 'POST'])
-def index():
+@coach_courseOfferings_router.route('/Offerings/<username>', methods=['GET', 'POST'])
+def index(username):
+    # print(app.getUsername())
+    # print(username)
     coachID = 'T123'
+    coachID = username
     if request.method == 'POST':
         course_title = request.form.get('title')
         course_price = request.form.get('price')
