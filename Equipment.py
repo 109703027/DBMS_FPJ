@@ -144,7 +144,8 @@ def borrow():
         equipment_data= equipment_data
     )
 
-
+@equipment_router.route('/showmem',methods=['POST'])
+def borrow():
 
 
 #@equipment_router.teardown_appcontext

@@ -65,7 +65,12 @@
             <tbody>
                 {% for equip in equipment_data %}
                     <tr height="50px">
-                       </form>                             
+                        <form action="showmem"  method="POST">
+                            <td>{{ equip.Equipment }}</td>
+                            <td>{{ equip.time }}</td>
+                            <td>{{ equip.count }}</td>
+                        </form>
+                                                    
                     </tr>
                 
                 {% endfor %}
