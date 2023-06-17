@@ -35,7 +35,7 @@ def all_course(username):
         'money':money_data[0]
     }
 
-    sql = """SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, c.courseID, c.cost
+    sql = """SELECT c.courseTitle, ch.name, c.courseDay, c.courseTime, c.dateStart, c.dateEnd, c.courseID, c.cost, ch.coachID
              FROM course AS c, coach AS ch
              WHERE c.dateStart > date(\'now\') and c.coachID = ch.coachID
              ORDER BY c.dateStart"""
@@ -63,7 +63,8 @@ def all_course(username):
             'End':d[5],
             'Condition':cond,
             'courseID':d[6],
-            'Cost':d[7]
+            'Cost':d[7],
+            'coachID':d[8]
         })
     return render_template(
         'all_course.html',
