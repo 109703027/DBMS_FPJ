@@ -74,7 +74,7 @@ def borrow():
     DateBorrow=request.form.get('DateBorrow')
     Date_parm=str(DateBorrow)
     print(DateBorrow_parm)
-
+    print(123)
     TimeS=request.form.get('TimeBorrow')
     TimeS_parm=str(TimeS)
     print(TimeS_parm)
