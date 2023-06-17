@@ -129,7 +129,7 @@ def borrow():
     WHERE not exists(
         SELECT * 
         FROM schedule 
-        WHERE dateBorrow=? and timeBorrow=? and dateBorrow< date(\'now\') and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
+        WHERE dateBorrow=? and timeBorrow=?  and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
         LIMIT ?
     """
     cur.execute(sql, (Date_parm,TimeS_parm,Equipment_parm,Quantity_parm ))
