@@ -10,10 +10,20 @@
       }
       function validateForm() {
         var title = document.getElementById('title').value;
+        var price = document.getElementById('price').value;
+        var startDate = document.getElementById('start_date').value;
+        var endDate = document.getElementById('end_date').value;
+        var startTime = document.getElementById('start_time').value;
+        var endTime = document.getElementById('end_time').value;
 
         // 檢查課程名稱是否只包含英文字母
         if (!/^[A-Za-z]+$/.test(title)) {
           // alert('課程名稱只能包含英文字母，請重新輸入。');
+          return false;
+        }
+
+        if (title === "" || price === "" || startDate === "" || endDate === "" || startTime === "" || endTime === "") {
+          alert("請填寫所有欄位");
           return false;
         }
 
