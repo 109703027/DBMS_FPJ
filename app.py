@@ -21,6 +21,12 @@ def get_db():
 
 @app_router.route('/')
 def start():
+	db = get_db
+	today = datetime.date.today()
+	query = "SELECT memberID FROM member WHERE memberExp < ? "
+	result = db.execute(query, (today)).fetchall()
+	if result:
+		print(result)
 	return render_template('login_new.html')
 
 
@@ -79,7 +85,7 @@ def register():
 		memberID = 'M0' + str(num)
 
 		memberExp = datetime.date.today()
-		memberExp = memberExp.year + 1
+		memberExp = memberExp.replace(year=memberExp.year + 1)
 
 		cursor = db.cursor()
 		query = "INSERT INTO member (memberID, name, sex, birth, phone, email, address, memberExp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
