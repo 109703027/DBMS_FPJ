@@ -24,7 +24,7 @@ def get_db():
 def start_equip(username):
     #print(username)
     Today = date.today()
-    print("Today's date:", Today)
+    #print("Today's date:", Today)
 
     return render_template('e2.html', userID=username, today= Today)
 
@@ -105,8 +105,8 @@ def borrow():
         equipment_ID.append({
             d[0],
         })
-    print(equipment_ID)
-    print(userID)
+    #print(equipment_ID)
+    #print(userID)
 
     for d in data :
         insert_sql = "INSERT INTO schedule (equipmentID, type, dateBorrow, timeBorrow,personID) \

@@ -47,6 +47,27 @@
             </tr>
             {% endfor %}
         </table>
+        <br>
+        <hr/>
+        <h2>器材租借清單</h2>
+        <table width="50%">
+          <thead align="left">
+            <tr>
+              <th>租借時間</th>
+              <th>器材</th>
+              <th>數量</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equi in equipment_data %} 
+            <tr height="50px">
+              <td>{{ equi.Time }}</td>
+              <td>{{ equi.Type }}</td>
+              <td>{{ equi.Number }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 	</body>
 
 

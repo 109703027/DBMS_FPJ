@@ -142,10 +142,22 @@ def member_profile(username):
             'memExp':d[7],
             'voucher':d[8]
         })
-    
+        
+    query = "SELECT dateBorrow,timeBorrow,type,COUNT(*) FROM schedule WHERE personID = ? GROUP BY dateBorrow, timeBorrow, type"
+    Edata = db.execute(query, (username,)).fetchall()
+    equipment_data = []
+    for d in Edata:
+
+        equipment_data.append({
+            'Time':d[0]+"  "+d[1]+":00",
+            'Type':d[2],
+            'Number':d[3]
+        })
+
     return render_template(
         'member_profile.html',
         member_data = member_data,
+        equipment_data = equipment_data
     )
 
 
