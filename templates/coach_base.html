@@ -11,6 +11,17 @@
 			<a href={{ root }} target="2">我的課程</a><br>
 			<a href={{ coach_Offerings}} target="2">我要開課</a><br>
 			<a href={{ eq_root }} target="2">器材租借</a><br>
+			<a href={{ login_root }} onclick="logout()">登出</a><br>
+		</div>
+
+		<script>
+			function logout() {
+				// window.location.href = "/";
+				// window.location.replace("/");
+				window.top.location.href = "/";
+			}
+		</script>			
+
 	</body>
 </html>
 
