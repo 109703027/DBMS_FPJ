@@ -12,7 +12,7 @@
             <form  action="/search" method="POST"  >   
                 <p>
                     <label for="">日期 </label>
-                    <input type="date" id="date" name="date">
+                    <input type="date" id="date" name="date" min="{{ today }}" value="{{ today }}">
                 </p>
 
                 <p>
@@ -45,7 +45,7 @@
                             <input type="hidden" name="DateBorrow" value="{{ equip.dateBorrow }}">
                             <input type="hidden" name="TimeBorrow" value="{{ equip.timeBorrow  }}">
                             <input type="hidden" name="userID" value="{{ userID }}">
-                            <td><input type='number'  id='Quantity' name='Quantity' value='1' min='1'  max='{{ equip.count }}' "/> <input type='submit' ></td>
+                            <td><input type='number'  id='Quantity' name='Quantity' value='0' min='1'  max='{{ equip.count }}' "/> <input type='submit' ></td>
                        </form>                             
                     </tr>
                 
