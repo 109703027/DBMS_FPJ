@@ -8,11 +8,15 @@
     </head>
     
         <h1>查詢器材</h1>
+        <form action="/my_equip" method="POST">
+            <input type="hidden" name="userID" value="{{ userID }}">
+            <td><input type='submit' value="我的租借"></td>
+        </form>
         <body>
             <form  action="/search" method="POST"  >   
                 <p>
                     <label for="">日期 </label>
-                    <input type="date" id="date" name="date" min="{{ today }}" value="{{ today }}">
+                    <input type="date" id="date" name="date" min="{{ today }}" >
                 </p>
 
                 <p>
@@ -22,7 +26,7 @@
                     <input type='submit' >
                 </p>
 
-            
+            </form>
 
 
         <table width="50%" >
