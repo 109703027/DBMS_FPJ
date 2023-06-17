@@ -8,6 +8,7 @@
   </head>
   <body>
 	<h1>所有課程</h1>
+	<p>您的購物金 : {{ user_data.money }}</p><input type="hidden" id="voucher" name="voucher" value="{{ user_data.money }}">
 	<table width="60%">
 	  <thead align="left">
 	    <tr>
@@ -17,7 +18,6 @@
 	      <th>開課日期</th>
 	      <th>結業日期</th>
 	      <th>價格</th>
-	      <th>會員金額(暫時)</th>
 	      <th width="100">報名資訊</th>
 	    </tr>
 	  </thead>
@@ -32,7 +32,6 @@
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>
 		  <td>{{ course.Cost }}</td>
-		  <td>{{ user_data.money }}</td>
           {% if course.Condition == 1 %}
               <td><input type="button" disabled="disabled" value="已報名"></td>
           {% elif course.Condition == 2 %}
