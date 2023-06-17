@@ -77,7 +77,7 @@ def borrow():
 
     TimeS=request.form.get('TimeBorrow')
     TimeS_parm=str(TimeS)
-    #print(TimeS_parm)
+    print(TimeS_parm)
 
     Equipment = request.form.get('Equipment')
     Equipment_parm=str(Equipment)
@@ -103,6 +103,7 @@ def borrow():
         })
     print(equipment_ID)
     print(userID)
+
     for d in data :
         insert_sql = "INSERT INTO schedule (equipmentID, type, dateBorrow, timeBorrow,personID) \
                         VALUES (?, ?, ?, ?,?)"
