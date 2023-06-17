@@ -18,6 +18,39 @@ def get_db():
     return db
 
 
+@equipment_router.route('/my_equip',methods=['POST'])
+def my_equip():
+    db = get_db()
+    cur = db.cursor()
+    Today = date.today()
+    Today= str(Today)
+
+   
+
+    userID = request.form.get('userID')
+    print(userID)
+    sql="""SELECT type, dateBorrow, timeBorrow ,count(type) 
+    FROM schedule 
+    WHERE personID = ? and dateBorrow >= ?  Group by type, DateBorrow, timeBorrow
+    """
+    
+    data = db.execute(sql, (userID, Today)).fetchall()
+ 
+    equip_data =[]
+    for d in data:
+        equip_data.append({
+            'type':d[0],
+            'dateBorrow':d[1],
+            'timeBorrow':d[2]+":00",
+            'amount':d[3]
+        })
+    print(equip_data)
+
+    return render_template(
+        'my_equip.html',
+        userID = userID,
+        equip_data = equip_data
+    )
 
 
 @equipment_router.route('/equipment_router/<username>', methods=['GET', 'POST'])
@@ -36,6 +69,7 @@ def equipment():
     db = get_db()
     cur = db.cursor()
 
+    Today = date.today()
     userID = request.form.get('userID')
 
     date_value=request.form.get('date')
@@ -65,6 +99,7 @@ def equipment():
         'e2.html',
         userID=userID,
         equipment_data= equipment_data,
+        today= Today
     )
 
 #@equipment_router.route('/borrow/<username>',methods=['POST'])
