@@ -21,14 +21,18 @@ def get_db():
 
 @app_router.route('/')
 def start():
-    db = get_db()
-    today = datetime.date.today()
-    query = "SELECT memberID FROM member WHERE memberExp < ? "
-    today_str = today.strftime("%Y-%m-%d")
-    result = db.execute(query, (today_str,)).fetchall()
-    if result:
-        print(result)
-    return render_template('login_new.html')
+
+	db = get_db()
+	today = datetime.date.today()
+	query = "SELECT memberID FROM member WHERE memberExp < ? "
+	today_str = today.strftime("%Y-%m-%d")
+	result = db.execute(query, (today_str,)).fetchall()
+	if result:
+		query2 = "delete from member where memberID = ?"		
+		for mem in result:
+			db.execute(query2, (mem[0],))
+			print(mem[0] + ' been delete')
+	return render_template('login_new.html')
 
 
 @app_router.route('/login_error')
