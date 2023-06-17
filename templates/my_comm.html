@@ -12,6 +12,7 @@
                 <tr>
                     <th>商品編號</th>
                     <th>商品名稱</th>
+                    <th>數量</th>
                 </tr>
             </thead>
             <hr>
@@ -20,6 +21,7 @@
             <tr height="50px" width="25px">
                 <td>{{ comm.commid }}</td>
                 <td>{{ comm.commname }}</td>
+                <td>{{ comm.amount }}</td>
             </tr>
             {% endfor %}
         </tbody>

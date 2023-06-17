@@ -54,13 +54,14 @@ def my_comm():
 
     userID = request.form.get('userID')
     db = get_db()
-    sql = "SELECT c.commodityID, c.name FROM commodity as c,transactions as t WHERE t.memberID = ? and c.commodityID=t.commodityID"
+    sql = "SELECT c.commodityID, c.name, t.amount FROM commodity as c,transactions as t WHERE t.memberID = ? and c.commodityID=t.commodityID"
     data = db.execute(sql, (userID,)).fetchall()
     comm_data = []
     for d in data:
         comm_data.append({
             'commid':d[0],
-            'commname':d[1]
+            'commname':d[1],
+            'amount':d[2]
         })
     
     return render_template(
@@ -101,8 +102,8 @@ def buy_comm():
             'store':d[3]
         })
 
-    sql3 = "INSERT INTO transactions (memberID, commodityID) VALUES (?, ?)"
-    cursor.execute(sql3, (userID, commid))
+    sql3 = "INSERT INTO transactions (memberID, commodityID, amount) VALUES (?, ?, ?)"
+    cursor.execute(sql3, (userID, commid, buynum))
     db.commit()
 
     sql4 = '''UPDATE member

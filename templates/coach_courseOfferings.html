@@ -36,13 +36,30 @@
         inputTime.value = hour.toFixed(0);
       }
 
+      window.onload = function() {
+        var startDateInput = document.getElementById('start_date');
+        var today = new Date(); // 取得當下日期
+        
+        // 設置開課日期的最小值為當下日期
+        startDateInput.setAttribute("min", today.toISOString().split("T")[0]);
+
+        // 初始化開課日期為當下日期
+        startDateInput.value = today.toISOString().split("T")[0];
+        startDateInput.value = "";
+        updateEndDateOptions();
+      };
+
       function updateEndDateOptions() {
-        var startDate = new Date(document.getElementById('start_date').value);
+        var startDateInput = document.getElementById('start_date');
+        var today = new Date(); // 取得當下日期
+        var startDate = new Date(startDateInput.value);
+
         startDate.setDate(startDate.getDate() + 1);
         var minEndDate = startDate.toISOString().split("T")[0];
         document.getElementById('end_date').setAttribute("min", minEndDate);
         updateWeekday();
       }
+
 
       function updateEndTimeOptions() {
         var startTime = document.getElementById('start_time').value;

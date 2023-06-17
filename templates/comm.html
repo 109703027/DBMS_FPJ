@@ -32,11 +32,12 @@
                     <input type="hidden" name="userID" value="{{ userID }}">
                     <input type="hidden" name="commid" value="{{ comm.id }}">
                     <input type="hidden" id="cost_{{ comm.id }}" name="cost" value="{{ comm.cost }}">
+                    <input type="hidden" id="store_{{ comm.id }}" name="store" value="{{ comm.store }}">
                     <td>
                         {% if comm.store > 0 %}
                         <input type='number' id="buynum_{{ comm.id }}" name='buynum' value='0' min='0'  max='{{ comm.store }}' required><input type="submit" value="下單" onclick="return buycommodity_{{ comm.id }}()">
                         {% else %}
-                        <span>無法下單</span>
+                        <span>完售</span>
                         {% endif %}
                     </td>
                 </form>
@@ -54,10 +55,17 @@
                 var input = document.getElementById('cost_{{ comm.id }}');
                 var cost = parseInt(input.value);
 
+                var input = document.getElementById('store_{{ comm.id }}');
+                var store = parseInt(input.value);
+
                 var input = document.getElementById('voucher');
                 var voucher = parseInt(input.value);
 
                 if (buynum != 0) {
+                    if (buynum > store){
+                        alert("下單失敗，請輸入有效的數量。");
+                        return false;
+                    }
                     var confirmed = confirm("確定下單？");
                     if ((cost*buynum)>voucher){
                         alert("購物金不足 !");

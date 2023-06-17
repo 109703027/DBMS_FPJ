@@ -3,6 +3,7 @@ import csv
 import sqlite3
 from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
 from datetime import datetime
+from datetime import date
 
 equipment_router = Blueprint("equipment_router", __name__)
 SQLITE_DB_PATH = 'gym.db'
@@ -21,8 +22,11 @@ def get_db():
 
 @equipment_router.route('/equipment_router/<username>', methods=['GET', 'POST'])
 def start_equip(username):
-    print(username)
-    return render_template('e2.html', userID=username)
+    #print(username)
+    Today = date.today()
+    print("Today's date:", Today)
+
+    return render_template('e2.html', userID=username, today= Today)
 
 #顯示可借的
 
@@ -54,13 +58,13 @@ def equipment():
             'dateBorrow':date_value,
             'timeBorrow':TimeS
         })
-    print(equipment_data)
+    #print(equipment_data)
     db.commit()
 
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data
+        equipment_data= equipment_data,
     )
 
 #@equipment_router.route('/borrow/<username>',methods=['POST'])
@@ -74,10 +78,10 @@ def borrow():
     DateBorrow=request.form.get('DateBorrow')
     Date_parm=str(DateBorrow)
     #print(DateBorrow_parm)
-
+    #print(123)
     TimeS=request.form.get('TimeBorrow')
     TimeS_parm=str(TimeS)
-    print(TimeS_parm)
+    #print(TimeS_parm)
 
     Equipment = request.form.get('Equipment')
     Equipment_parm=str(Equipment)
@@ -90,7 +94,7 @@ def borrow():
     WHERE not exists(
         SELECT * 
         FROM schedule 
-        WHERE dateBorrow=? and timeBorrow=? and equipment.equipmentID=schedule.equipmentID) and type Like ? 
+        WHERE dateBorrow=? and timeBorrow=? and dateBorrow< date(\'now\') and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
         LIMIT ?
     """
     cur.execute(sql, (Date_parm,TimeS_parm,Equipment_parm,Quantity_parm ))
@@ -139,6 +143,13 @@ def borrow():
         userID=userID,
         equipment_data= equipment_data
     )
+
+# @equipment_router.route('/showmem',methods=['POST'])
+# def showmem():
+#     db = get_db()
+#     cur = db.cursor()
+
+#     userID = request.form.get('userID')
 
 
 

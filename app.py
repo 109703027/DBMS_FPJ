@@ -209,6 +209,7 @@ def member_base(username):
 				profile_root = "/member_profile/"+username,
 				comm_root = "/commodity/"+username,
 				eq_root = "/equipment_router/"+username,
+				login_root = "/"
     )
 
 
@@ -220,6 +221,7 @@ def coach_base(username):
 		coach_root = "/coach_profile/"+username,
 		coach_Offerings = "/Offerings/" + username,
 		eq_root = "/equipment_router/"+username,
+		login_root = "/",
 )
 
 
