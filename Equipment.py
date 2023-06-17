@@ -144,8 +144,14 @@ def borrow():
         equipment_data= equipment_data
     )
 
-@equipment_router.route('/showmem',methods=['POST'])
-def borrow():
+# @equipment_router.route('/showmem',methods=['POST'])
+# def showmem():
+#     db = get_db()
+#     cur = db.cursor()
+
+#     userID = request.form.get('userID')
+
+
 
 
 #@equipment_router.teardown_appcontext

@@ -49,36 +49,6 @@
         </table>
 	</body>
 
-    <body>
-        <h1>租借清單</h1>
-        
-        <table width="50%" >
-            <thead align="left">
-                <tr>
-                <th>設備</th>
-                <th>租借時間</th>
-                <th>數量</th>
-    
-                </tr>
-            </thead>
-			
-            <tbody>
-                {% for equip in equipment_data %}
-                    <tr height="50px">
-                        <form action="showmem"  method="POST">
-                            <td>{{ equip.Equipment }}</td>
-                            <td>{{ equip.time }}</td>
-                            <td>{{ equip.count }}</td>
-                        </form>
-                                                    
-                    </tr>
-                
-                {% endfor %}
 
-            </tbody>
-			
-        </table>
-
-    </body>
 </html>
 
