@@ -21,16 +21,16 @@ def get_db():
 
 @app_router.route('/')
 def start():
-	db = get_db()
-	today = datetime.date.today()
-	query = "SELECT memberID FROM member WHERE memberExp < ? "
-	today_str = today.strftime("%Y-%m-%d")
-	result = db.execute(query, (today_str,)).fetchall()
-	if result:
-		query2 = "delete from member where memberID = ?"		
-		for mem in result:
-			db.execute(query2, (mem[0],))
-			print(mem[0] + ' been delete')
+	# db = get_db()
+	# today = datetime.date.today()
+	# query = "SELECT memberID FROM member WHERE memberExp < ? "
+	# today_str = today.strftime("%Y-%m-%d")
+	# result = db.execute(query, (today_str,)).fetchall()
+	# if result:
+	# 	query2 = "delete from member where memberID = ?"		
+	# 	for mem in result:
+	# 		db.execute(query2, (mem[0],))
+	# 		print(mem[0] + ' been delete')
 	return render_template('login_new.html')
 
 
@@ -165,7 +165,8 @@ def coach_profile(username):
             'birth':d[4],
         })
     
-    query2 = "SELECT courseID FROM course WHERE coachID = ?"
+	#現在coach_course是顯示這個教練開的課，且根據課程名字group
+    query2 = "SELECT courseTitle FROM course WHERE coachID = ? GROUP BY courseTitle;"
     data2 = db.execute(query2, (username,)).fetchall()
     coach_course = [row[0] for row in data2]
     # print(coach_course)
@@ -173,15 +174,16 @@ def coach_profile(username):
     return render_template(
         'coach_profile.html',
         coach_data = coach_data,
-		coach_course = coach_course
+		coach_course = coach_course,
+		coach_id = username
     )
 
 
 @app_router.route('/evaluate/<course_id>', methods=['GET', 'POST'])
-def evaluate(course_id):
+def evaluate(course_title, coach_id):
     db = get_db()
-    query = "SELECT * FROM record WHERE courseID = ?"
-    data = db.execute(query, (course_id,)).fetchall()
+    query = "SELECT reocrd.memberID, record.evaluate FROM record, course WHERE record.courseID=course.courseID AND courseTitle = ? AND coachID = ?"
+    data = db.execute(query, (course_title, coach_id)).fetchall()
     # print(data[0])
     # print('hi')
 
