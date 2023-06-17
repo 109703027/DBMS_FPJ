@@ -1,7 +1,6 @@
-#改版的
-import csv
+# 改版的
 import sqlite3
-from flask import Flask, g, render_template, request, redirect, url_for, Blueprint
+from flask import g, render_template, request, Blueprint
 from datetime import datetime
 from datetime import date
 
@@ -11,6 +10,7 @@ SQLITE_DB_PATH = 'gym.db'
 
 def get_db():
     db = getattr(g, '_database', None)
+
     if db is None:
         db = g._database = sqlite3.connect(SQLITE_DB_PATH)
         # Enable foreign key check
@@ -18,130 +18,185 @@ def get_db():
     return db
 
 
-
-
-@equipment_router.route('/equipment_router/<username>', methods=['GET', 'POST'])
+@equipment_router.route(
+    '/equipment_router/<username>',
+    methods=['GET', 'POST']
+)
 def start_equip(username):
-    #print(username)
+    # print(username)
     Today = date.today()
     print("Today's date:", Today)
 
-    return render_template('e2.html', userID=username, today= Today)
+    return render_template('e2.html', userID=username, today=Today)
 
-#顯示可借的
 
-#@equipment_router.route('/search/<username>')
-@equipment_router.route('/search',methods=['POST'])
+# 顯示可借的
+# @equipment_router.route('/search/<username>')
+@equipment_router.route('/search', methods=['POST'])
 def equipment():
     db = get_db()
     cur = db.cursor()
 
     userID = request.form.get('userID')
 
-    date_value=request.form.get('date')
+    date_value = request.form.get('date')
     Date_value = datetime.strptime(date_value, '%Y-%m-%d').strftime('%Y-%m-%d')
-    Date_parm=str(Date_value)
+    Date_parm = str(Date_value)
 
     TimeS = request.form.get('TimeS')
-    TimeS_parm=str(TimeS)
-    
-    sql = "SELECT type,count(type) FROM equipment WHERE not exists(SELECT * FROM schedule WHERE dateBorrow=? and timeBorrow=? and equipment.equipmentID=schedule.equipmentID) GROUP BY type"
-    #cur.execute(sql)
-    cur.execute(sql, (Date_parm,TimeS_parm))
-    data=cur.fetchall()
-    equipment_data =[]
-   
-    for d in data :
+    TimeS_parm = str(TimeS)
+
+    sql = """
+        SELECT
+            type,
+            count(type)
+        FROM
+            equipment
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    *
+                FROM
+                    schedule
+                WHERE
+                    dateBorrow = ? AND
+                    timeBorrow = ? AND
+                    equipment.equipmentID = schedule.equipmentID
+            )
+        GROUP BY
+            type
+    """
+    # cur.execute(sql)
+    cur.execute(sql, (Date_parm, TimeS_parm))
+    data = cur.fetchall()
+    equipment_data = []
+
+    for d in data:
         equipment_data.append({
-            'Equipment':d[0],
-            'count':d[1],
-            'dateBorrow':date_value,
-            'timeBorrow':TimeS
+            'Equipment': d[0],
+            'count': d[1],
+            'dateBorrow': date_value,
+            'timeBorrow': TimeS
         })
-    #print(equipment_data)
+
+    # print(equipment_data)
     db.commit()
 
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data,
+        equipment_data=equipment_data,
     )
 
-#@equipment_router.route('/borrow/<username>',methods=['POST'])
-@equipment_router.route('/borrow',methods=['POST'])
+
+# @equipment_router.route('/borrow/<username>',methods=['POST'])
+@equipment_router.route('/borrow', methods=['POST'])
 def borrow():
     db = get_db()
     cur = db.cursor()
 
     userID = request.form.get('userID')
 
-    DateBorrow=request.form.get('DateBorrow')
-    Date_parm=str(DateBorrow)
-    #print(DateBorrow_parm)
-    #print(123)
-    TimeS=request.form.get('TimeBorrow')
-    TimeS_parm=str(TimeS)
-    #print(TimeS_parm)
+    DateBorrow = request.form.get('DateBorrow')
+    Date_parm = str(DateBorrow)
+    # print(DateBorrow_parm)
+    # print(123)
+    TimeS = request.form.get('TimeBorrow')
+    TimeS_parm = str(TimeS)
+    # print(TimeS_parm)
 
     Equipment = request.form.get('Equipment')
-    Equipment_parm=str(Equipment)
+    Equipment_parm = str(Equipment)
 
     Quantity = request.form.get('Quantity')
-    Quantity_parm=str(Quantity)
-    
-    sql = """SELECT equipmentID 
-    FROM Equipment 
-    WHERE not exists(
-        SELECT * 
-        FROM schedule 
-        WHERE dateBorrow=? and timeBorrow=? and dateBorrow< date(\'now\') and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
+    Quantity_parm = str(Quantity)
+
+    sql = """
+        SELECT
+            equipmentID
+        FROM
+            Equipment
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    *
+                FROM
+                    schedule
+                WHERE
+                    dateBorrow = ? AND
+                    timeBorrow = ? AND
+                    dateBorrow < date(\'now\') AND
+                    equipment.equipmentID=schedule.equipmentID
+                ) AND
+            type Like ?
         LIMIT ?
     """
-    cur.execute(sql, (Date_parm,TimeS_parm,Equipment_parm,Quantity_parm ))
-    data=cur.fetchall()
+    cur.execute(sql, (Date_parm, TimeS_parm, Equipment_parm, Quantity_parm))
+    data = cur.fetchall()
 
-    equipment_ID =[]
-    for d in data :
+    equipment_ID = []
+
+    for d in data:
         equipment_ID.append({
             d[0],
         })
+
     print(equipment_ID)
     print(userID)
 
-    for d in data :
-        insert_sql = "INSERT INTO schedule (equipmentID, type, dateBorrow, timeBorrow,personID) \
-                        VALUES (?, ?, ?, ?,?)"
-        cur.execute(insert_sql, (d[0],Equipment_parm , Date_parm, TimeS_parm, userID))
+    for d in data:
+        insert_sql = """
+            INSERT INTO schedule
+                (equipmentID, type, dateBorrow, timeBorrow,personID)
+            VALUES
+                (?, ?, ?, ?, ?)
+        """
+        cur.execute(
+            insert_sql,
+            (d[0], Equipment_parm, Date_parm, TimeS_parm, userID)
+        )
 
+    # 更新時顯示每一個equipment
+    sql = """
+        SELECT
+            type,
+            count(type)
+        FROM
+            equipment
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    *
+                FROM
+                    schedule
+                WHERE
+                    dateBorrow=? AND
+                    timeBorrow=? AND
+                    equipment.equipmentID=schedule.equipmentID
+            )
+        GROUP BY
+            type
+    """
+    # cur.execute(sql)
+    cur.execute(sql, (Date_parm, TimeS_parm))
+    data = cur.fetchall()
+    equipment_data = []
 
-
-    #更新時顯示每一個equipment
-    sql = "SELECT type,count(type) FROM equipment WHERE not exists(SELECT * FROM schedule WHERE dateBorrow=? and timeBorrow=? and equipment.equipmentID=schedule.equipmentID) GROUP BY type"
-    #cur.execute(sql)
-    cur.execute(sql, (Date_parm,TimeS_parm))
-    data=cur.fetchall()
-    equipment_data =[]
-   
-    for d in data :
+    for d in data:
         equipment_data.append({
-            'Equipment':d[0],
-            'count':d[1],
-            'dateBorrow':DateBorrow,
-            'timeBorrow':TimeS
+            'Equipment': d[0],
+            'count': d[1],
+            'dateBorrow': DateBorrow,
+            'timeBorrow': TimeS
         })
-    
-    
-    
+
     db.commit()
     db.close()
-
-
-   
 
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data
+        equipment_data=equipment_data
     )
 
 # @equipment_router.route('/showmem',methods=['POST'])
@@ -152,9 +207,7 @@ def borrow():
 #     userID = request.form.get('userID')
 
 
-
-
-#@equipment_router.teardown_appcontext
+# @equipment_router.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
