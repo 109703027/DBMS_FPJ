@@ -16,12 +16,12 @@
             <form  action="/search" method="POST"  >   
                 <p>
                     <label for="">日期 </label>
-                    <input type="date" id="date" name="date" min="{{ today }}" >
+                    <input type="date" id="date" name="date" value="{{ today }}"  min="{{ today }}" >
                 </p>
 
                 <p>
                     <label for="">時間 </label>
-                    <input type="number" name="TimeS" value='0' min='0'  max='23' placeholder="起">
+                    <input type="number" name="TimeS" value="{{ hour }}"  min="{{ hour }}"  max='23' placeholder="起">
                     <input type="hidden" name="userID" value="{{ userID }}">
                     <input type='submit' >
                 </p>

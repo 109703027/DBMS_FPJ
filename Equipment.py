@@ -57,9 +57,11 @@ def my_equip():
 def start_equip(username):
     #print(username)
     Today = date.today()
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
     #print("Today's date:", Today)
 
-    return render_template('e2.html', userID=username, today= Today)
+    return render_template('e2.html', userID=username, today= Today, hour= Hour)
 
 #顯示可借的
 
@@ -70,6 +72,9 @@ def equipment():
     cur = db.cursor()
 
     Today = date.today()
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
+
     userID = request.form.get('userID')
 
     date_value=request.form.get('date')
@@ -99,7 +104,8 @@ def equipment():
         'e2.html',
         userID=userID,
         equipment_data= equipment_data,
-        today= Today
+        today= Today,
+        hour= Hour
     )
 
 #@equipment_router.route('/borrow/<username>',methods=['POST'])
@@ -107,6 +113,10 @@ def equipment():
 def borrow():
     db = get_db()
     cur = db.cursor()
+
+    Today = date.today()
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
 
     userID = request.form.get('userID')
 
@@ -176,7 +186,9 @@ def borrow():
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data
+        equipment_data= equipment_data,
+        today= Today,
+        hour= Hour
     )
 
 # @equipment_router.route('/showmem',methods=['POST'])
