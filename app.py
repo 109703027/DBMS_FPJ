@@ -27,7 +27,10 @@ def start():
 	today_str = today.strftime("%Y-%m-%d")
 	result = db.execute(query, (today_str,)).fetchall()
 	if result:
-		print(result)
+		query2 = "delete from member where memberID = ?"		
+		for mem in result:
+			db.execute(query2, (mem[0],))
+			print(mem[0] + ' been delete')
 	return render_template('login_new.html')
 
 
