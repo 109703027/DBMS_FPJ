@@ -37,7 +37,7 @@
         <ul>
         {% for course in coach_course %}
             <li>
-                <a href="{{ url_for('app_router.evaluate', course_title=course, coach_id=coach_id) }}">
+                <a href="{{ url_for('app_router.evaluate', course_title=course, coach_id=coach_id ) }}">
                     {{ course }}
                 </a>
             </li>
