@@ -4,15 +4,43 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 		<title>忘記帳號</title>
-		</script>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f2f2f2;
+				margin: 0;
+				padding: 20px;
+			}
+
+			h2 {
+				color: #333;
+			}
+
+			h3 {
+				color: #666;
+			}
+
+			a {
+				display: inline-block;
+				padding: 10px 20px;
+				background-color: #4CAF50;
+				color: #fff;
+				text-decoration: none;
+				border-radius: 4px;
+				font-size: 16px;
+				margin-top: 20px;
+			}
+
+			a:hover {
+				background-color: #45a049;
+			}
+		</style>
 	</head>
 	<body>
-	    <h2>小傻瓜 下次要記得</h2>
-        <h3>你的會員編號為</h3>
-        {{ member_id }}
+		<h2>小傻瓜 下次要記得</h2>
+		<h3>你的會員編號為</h3>
+		{{ member_id }}
 		<br>
-        <a href="/">確定</a>
-    </form>
+		<a href="/">確定</a>
 	</body>
 </html>
-
