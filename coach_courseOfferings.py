@@ -1,19 +1,19 @@
-import csv
 import sqlite3
-from flask import Flask, g
-from flask import Flask, render_template, request, Blueprint
-import app
+from flask import g, render_template, request, Blueprint
 
 # app = Flask(__name__)
-coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
+coach_courseOfferings_router = Blueprint("coach_courseOfferings_router",
+                                         __name__)
 SQLITE_DB_PATH = 'gym.db'
 # db = sqlite3.connect(SQLITE_DB_PATH)
 # c = db.execute('Select * from coach')
 # for row in c:
 #     print(row)
 
+
 def get_db():
     db = getattr(g, '_database', None)
+
     if db is None:
         db = g._database = sqlite3.connect(SQLITE_DB_PATH)
         # Enable foreign key check
@@ -28,7 +28,10 @@ def get_db():
 #         db.close()
 
 
-@coach_courseOfferings_router.route('/Offerings/<username>', methods=['GET', 'POST'])
+@coach_courseOfferings_router.route(
+    '/Offerings/<username>',
+    methods=['GET', 'POST']
+)
 def index(username):
     # print(app.getUsername())
     # print(username)
@@ -57,9 +60,30 @@ def index(username):
 
         # print(course_number, course_title, course_price, course_start_date, course_end_date, course_weekday, course_time, coachID)
         course_cursor = db.cursor()
-        course_sql = "INSERT INTO course (courseID, courseTitle, cost, dateStart, dateEnd, courseDay, courseTime, coachID) \
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-        course_cursor.execute(course_sql, (course_number, course_title, course_price, course_start_date, course_end_date, course_weekday, course_time, coachID))
+        course_sql = """
+            INSERT INTO course
+                (courseID,
+                 courseTitle,
+                 cost,
+                 dateStart,
+                 dateEnd,
+                 courseDay,
+                 courseTime,
+                 coachID)
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        course_cursor.execute(
+            course_sql,
+            (course_number,
+             course_title,
+             course_price,
+             course_start_date,
+             course_end_date,
+             course_weekday,
+             course_time,
+             coachID)
+        )
 
         db.commit()
         db.close()
