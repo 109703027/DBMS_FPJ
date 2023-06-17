@@ -23,7 +23,7 @@
                     <label for="">時間 </label>
                     <input type="number" name="TimeS" value="{{ hour }}"  min="{{ hour }}"  max='23' placeholder="起">
                     <input type="hidden" name="userID" value="{{ userID }}">
-                    <input type='submit' >
+                    <input type='submit' value="查詢">
                 </p>
 
             </form>
@@ -49,7 +49,7 @@
                             <input type="hidden" name="DateBorrow" value="{{ equip.dateBorrow }}">
                             <input type="hidden" name="TimeBorrow" value="{{ equip.timeBorrow  }}">
                             <input type="hidden" name="userID" value="{{ userID }}">
-                            <td><input type='number'  id='Quantity' name='Quantity' value='0' min='1'  max='{{ equip.count }}' "/> <input type='submit' ></td>
+                            <td><input type='number'  id='Quantity' name='Quantity' value='0' min='1'  max='{{ equip.count }}' "/> <input type='submit' value="租借"></td>
                        </form>                             
                     </tr>
                 
