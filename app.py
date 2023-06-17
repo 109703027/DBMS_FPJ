@@ -21,10 +21,11 @@ def get_db():
 
 @app_router.route('/')
 def start():
-	db = get_db
+	db = get_db()
 	today = datetime.date.today()
 	query = "SELECT memberID FROM member WHERE memberExp < ? "
-	result = db.execute(query, (today)).fetchall()
+	today_str = today.strftime("%Y-%m-%d")
+	result = db.execute(query, (today_str,)).fetchall()
 	if result:
 		print(result)
 	return render_template('login_new.html')
