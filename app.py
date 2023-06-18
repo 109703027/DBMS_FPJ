@@ -31,7 +31,7 @@ def start():
 		query2 = "DELETE FROM member WHERE memberID = ?"
         
 		for mem in result:
-			db.execute(query2, (mem[0],))
+			db.execute(query2, (str(mem[0]),))
 			print(mem[0] + ' been delete')
 	return render_template('login_new.html')
 
@@ -319,11 +319,17 @@ def evaluate(coach_id, course_title):
     return render_template('evaluate.html', course_ev=course_ev)
 
 
+@app_router.route('/welcome/<username>', methods=['GET', 'POST'])
+def welcome(username):
+    return render_template(
+        'welcome.html'
+    )
+
 @app_router.route('/frame/<username>')
 def frame(username):
     if username[0] == "M":
         root = "/member_base/"+username
-        start_root = "/my_course/"+username
+        start_root = "/welcome/"+username
     else:
         root = "/coach_base/"+username
         start_root = "/coachcourse/"+username
@@ -339,11 +345,12 @@ def frame(username):
 def member_base(username):
     return render_template(
         'member_base.html',
-        root="/my_course/"+username,
-        course_root="/course/"+username,
-        profile_root="/member_profile/"+username,
-        comm_root="/commodity/"+username,
-        eq_root="/equipment_router/"+username,
+        welcome_root="/welcome/" + username,
+        root="/my_course/" + username,
+        course_root="/course/" + username,
+        profile_root="/member_profile/" + username,
+        comm_root="/commodity/" + username,
+        eq_root="/equipment_router/" + username,
         login_root="/"
     )
 
