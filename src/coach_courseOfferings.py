@@ -2,7 +2,7 @@ import csv
 import sqlite3
 from flask import Flask, g
 from flask import Flask, render_template, request, Blueprint
-import app
+import src.app
 
 # app = Flask(__name__)
 coach_courseOfferings_router = Blueprint("coach_courseOfferings_router", __name__)
