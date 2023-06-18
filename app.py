@@ -21,19 +21,19 @@ def get_db():
 
 @app_router.route('/')
 def start():
-	db = get_db()
-	today = datetime.date.today()
-	query = "SELECT memberID FROM member WHERE memberExp < ? "
-	today_str = today.strftime("%Y-%m-%d")
-	result = db.execute(query, (today_str,)).fetchall()
-    
-	if result:
-		query2 = "DELETE FROM member WHERE memberID = ?"
-        
-		for mem in result:
-			db.execute(query2, (str(mem[0]),))
-			print(mem[0] + ' been delete')
-	return render_template('login_new.html')
+    db = get_db()
+    today = datetime.date.today()
+    query = "SELECT memberID FROM member WHERE memberExp < ? "
+    today_str = today.strftime("%Y-%m-%d")
+    result = db.execute(query, (today_str,)).fetchall()
+
+    if result:
+        query2 = "DELETE FROM member WHERE memberID = ?"
+
+        for mem in result:
+            db.execute(query2, (str(mem[0]),))
+            print(mem[0] + ' been delete')
+    return render_template('login_new.html')
 
 
 @app_router.route('/login_error')
@@ -285,9 +285,9 @@ def coach_evaluate(username, courseTitle):
 
     return render_template(
         'coach_evaluate.html',
-	    coach_data=coach_data,
-		coach_course=coach_course,
-		coach_id=username
+        coach_data=coach_data,
+        coach_course=coach_course,
+        coach_id=username
     )
 
 
@@ -324,6 +324,7 @@ def welcome(username):
     return render_template(
         'welcome.html'
     )
+
 
 @app_router.route('/frame/<username>')
 def frame(username):
