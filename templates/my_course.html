@@ -24,7 +24,7 @@
 	    {% for course in course_data %} 
 		<tr height="50px">
 		  <td>{{ course.Title }}</td>
-		  <td>{{ course.c_Name }}</td>
+		  <td><a href="{{ url_for('app_router.coach_profile', username=course.coachID) }}">{{ course.c_Name }}</a></td>
 		  <td>{{ course.Day }}</td>
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>

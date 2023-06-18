@@ -75,7 +75,7 @@ def all_course(username):
 @member_course_router.route('/my_course/<username>')
 def my_course(username):
     db = get_db()
-    sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate, C.courseID
+    sql = """SELECT C.courseTitle, T.name, C.courseDay, C.courseTime, C.dateStart, C.dateEnd, R.evaluate, C.courseID, T.coachID
             FROM course AS C, coach AS T, member as M, record as R
             WHERE C.coachID = T.coachID and R.courseID = C.courseID and R.memberID = M.memberID and M.memberID = ?
             ORDER BY c.dateStart"""
@@ -92,7 +92,8 @@ def my_course(username):
             'Start':d[4],
             'End':d[5],
             'comment':d[6],
-            'courseID':d[7]
+            'courseID':d[7],
+            'coachID':d[8]
         })
 
 
