@@ -235,8 +235,11 @@ def evaluate(coach_id, course_title):
     # print(data[0])
     # print('hi')
     course_ev = []
-    for d in data:
-        course_ev.append(d[0])
+    if data:
+        for d in data:
+            course_ev.append(d[0])
+    else:
+        course_ev.append("NA")
 
     return render_template('evaluate.html', course_ev = course_ev)
 
