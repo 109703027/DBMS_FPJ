@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>健身房管理平台 - 器材租借</title>
+    </head>
+    <body>
+        <h1>我的租借</h1>
+        <table width="50%">
+            <thead align="left">
+                <tr>
+                    <th>器材名稱</th>
+                    <th>日期</th>
+                    <th>時間</th>
+                    <th>數量</th>
+                </tr>
+            </thead>
+            <hr>
+            <tbody>
+            {% for equip in equip_data %} 
+            <tr height="50px" width="25px">
+                <td>{{ equip.type }}</td>
+                <td>{{ equip.dateBorrow }}</td>
+                <td>{{ equip.timeBorrow }}</td>
+                <td>{{ equip.amount }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </body>
+</html>

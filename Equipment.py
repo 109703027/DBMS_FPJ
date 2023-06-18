@@ -18,6 +18,51 @@ def get_db():
     return db
 
 
+@equipment_router.route('/my_equip',methods=['POST'])
+def my_equip():
+    db = get_db()
+    cur = db.cursor()
+    Today = date.today()
+    Today= str(Today)
+
+    userID = request.form.get('userID')
+    print(userID)
+    sql = """
+        SELECT
+            type,
+            dateBorrow,
+            timeBorrow,
+            count(type) 
+        FROM
+            schedule 
+        WHERE
+            personID = ? AND
+            dateBorrow >= ?
+        GROUP BY
+            type,
+            DateBorrow,
+            timeBorrow
+    """
+
+    data = db.execute(sql, (userID, Today)).fetchall()
+    equip_data =[]
+    
+    for d in data:
+        equip_data.append({
+            'type': d[0],
+            'dateBorrow': d[1],
+            'timeBorrow': d[2] + ":00",
+            'amount': d[3]
+        })
+    print(equip_data)
+
+    return render_template(
+        'my_equip.html',
+        userID=userID,
+        equip_data=equip_data
+    )
+
+
 @equipment_router.route(
     '/equipment_router/<username>',
     methods=['GET', 'POST']
@@ -25,9 +70,11 @@ def get_db():
 def start_equip(username):
     # print(username)
     Today = date.today()
-    print("Today's date:", Today)
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
+    #print("Today's date:", Today)
 
-    return render_template('e2.html', userID=username, today=Today)
+    return render_template('e2.html', userID=username, today=Today, hour=Hour)
 
 
 # 顯示可借的
@@ -36,6 +83,10 @@ def start_equip(username):
 def equipment():
     db = get_db()
     cur = db.cursor()
+
+    Today = date.today()
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
 
     userID = request.form.get('userID')
 
@@ -86,6 +137,8 @@ def equipment():
         'e2.html',
         userID=userID,
         equipment_data=equipment_data,
+        today=Today,
+        hour=Hour
     )
 
 
@@ -94,6 +147,10 @@ def equipment():
 def borrow():
     db = get_db()
     cur = db.cursor()
+
+    Today = date.today()
+    currentDateAndTime = datetime.now()
+    Hour=currentDateAndTime.hour+1
 
     userID = request.form.get('userID')
 
@@ -109,26 +166,14 @@ def borrow():
     Equipment_parm = str(Equipment)
 
     Quantity = request.form.get('Quantity')
-    Quantity_parm = str(Quantity)
-
-    sql = """
-        SELECT
-            equipmentID
-        FROM
-            Equipment
-        WHERE
-            NOT EXISTS (
-                SELECT
-                    *
-                FROM
-                    schedule
-                WHERE
-                    dateBorrow = ? AND
-                    timeBorrow = ? AND
-                    dateBorrow < date(\'now\') AND
-                    equipment.equipmentID=schedule.equipmentID
-                ) AND
-            type Like ?
+    Quantity_parm=str(Quantity)
+    
+    sql = """SELECT equipmentID 
+    FROM Equipment 
+    WHERE not exists(
+        SELECT * 
+        FROM schedule 
+        WHERE dateBorrow=? and timeBorrow=?  and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
         LIMIT ?
     """
     cur.execute(sql, (Date_parm, TimeS_parm, Equipment_parm, Quantity_parm))
@@ -141,8 +186,8 @@ def borrow():
             d[0],
         })
 
-    print(equipment_ID)
-    print(userID)
+    # print(equipment_ID)
+    # print(userID)
 
     for d in data:
         insert_sql = """
@@ -196,7 +241,9 @@ def borrow():
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data=equipment_data
+        equipment_data=equipment_data,
+        today=Today,
+        hour=Hour
     )
 
 # @equipment_router.route('/showmem',methods=['POST'])
