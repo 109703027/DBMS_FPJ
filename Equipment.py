@@ -18,12 +18,12 @@ def get_db():
     return db
 
 
-@equipment_router.route('/my_equip',methods=['POST'])
+@equipment_router.route('/my_equip', methods=['POST'])
 def my_equip():
     db = get_db()
-    cur = db.cursor()
+    # cur = db.cursor()
     Today = date.today()
-    Today= str(Today)
+    Today = str(Today)
 
     userID = request.form.get('userID')
     print(userID)
@@ -32,9 +32,9 @@ def my_equip():
             type,
             dateBorrow,
             timeBorrow,
-            count(type) 
+            count(type)
         FROM
-            schedule 
+            schedule
         WHERE
             personID = ? AND
             dateBorrow >= ?
@@ -45,8 +45,8 @@ def my_equip():
     """
 
     data = db.execute(sql, (userID, Today)).fetchall()
-    equip_data =[]
-    
+    equip_data = []
+
     for d in data:
         equip_data.append({
             'type': d[0],
@@ -71,8 +71,8 @@ def start_equip(username):
     # print(username)
     Today = date.today()
     currentDateAndTime = datetime.now()
-    Hour=currentDateAndTime.hour+1
-    #print("Today's date:", Today)
+    Hour = currentDateAndTime.hour + 1
+    # print("Today's date:", Today)
 
     return render_template('e2.html', userID=username, today=Today, hour=Hour)
 
@@ -86,7 +86,7 @@ def equipment():
 
     Today = date.today()
     currentDateAndTime = datetime.now()
-    Hour=currentDateAndTime.hour+1
+    Hour = currentDateAndTime.hour+1
 
     userID = request.form.get('userID')
 
@@ -150,7 +150,7 @@ def borrow():
 
     Today = date.today()
     currentDateAndTime = datetime.now()
-    Hour=currentDateAndTime.hour+1
+    Hour = currentDateAndTime.hour+1
 
     userID = request.form.get('userID')
 
@@ -166,14 +166,25 @@ def borrow():
     Equipment_parm = str(Equipment)
 
     Quantity = request.form.get('Quantity')
-    Quantity_parm=str(Quantity)
-    
-    sql = """SELECT equipmentID 
-    FROM Equipment 
-    WHERE not exists(
-        SELECT * 
-        FROM schedule 
-        WHERE dateBorrow=? and timeBorrow=?  and  equipment.equipmentID=schedule.equipmentID) and type Like ? 
+    Quantity_parm = str(Quantity)
+
+    sql = """
+        SELECT
+            equipmentID
+        FROM
+            Equipment
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    *
+                FROM
+                    schedule
+                WHERE
+                    dateBorrow = ? AND
+                    timeBorrow = ? AND
+                    equipment.equipmentID = schedule.equipmentID
+                ) AND
+            type Like ?
         LIMIT ?
     """
     cur.execute(sql, (Date_parm, TimeS_parm, Equipment_parm, Quantity_parm))
