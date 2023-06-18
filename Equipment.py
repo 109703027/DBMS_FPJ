@@ -135,7 +135,7 @@ def equipment():
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data,
+        equipment_data=equipment_data,
         today=Today,
         hour=Hour,
         dateBorrow=date_value,
@@ -253,7 +253,7 @@ def borrow():
     return render_template(
         'e2.html',
         userID=userID,
-        equipment_data= equipment_data,
+        equipment_data=equipment_data,
         today=Today,
         hour=Hour,
         dateBorrow=DateBorrow,
