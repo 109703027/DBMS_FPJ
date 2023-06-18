@@ -7,7 +7,15 @@
 		</script>
 	</head>
 	<body>
-        {{ course_ev }}
+        <table width="100%">
+          <tbody>
+            {% for ev in course_ev %}
+                <tr height="50px">
+                  <td>{{ ev }}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         <input type ="button" onclick="history.back()" value="返回">
 	</body>
 </html>

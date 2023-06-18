@@ -8,7 +8,7 @@
   </head>
   <body>
 	<h1>我的課程</h1>
-	<table width="50%">
+	<table width="80%">
 	  <thead align="left">
 	    <tr>
 	      <th>課程</th>
@@ -24,7 +24,7 @@
 	    {% for course in course_data %} 
 		<tr height="50px">
 		  <td>{{ course.Title }}</td>
-		  <td>{{ course.c_Name }}</td>
+		  <td><a href="{{ url_for('app_router.coach_evaluate', username=course.coachID, courseTitle=course.Title) }}">{{ course.c_Name }}</a></td>
 		  <td>{{ course.Day }}</td>
 		  <td>{{ course.Start }}</td>
 		  <td>{{ course.End }}</td>

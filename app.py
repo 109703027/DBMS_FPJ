@@ -207,7 +207,6 @@ def member_profile(username):
         equipment_data=equipment_data
     )
 
-
 @app_router.route('/coach_profile/<username>', methods=['GET', 'POST'])
 def coach_profile(username):
     db = get_db()
@@ -223,51 +222,67 @@ def coach_profile(username):
             'experience': d[3],
             'birth': d[4],
         })
+    
+    query = "SELECT dateBorrow,timeBorrow,type,COUNT(*) FROM schedule WHERE personID = ? GROUP BY dateBorrow, timeBorrow, type"
+    Edata = db.execute(query, (username,)).fetchall()
+    equipment_data = []
+    for d in Edata:
 
-    # 現在coach_course是顯示這個教練開的課，且根據課程名字group
-    query2 = """
-        SELECT
-            courseTitle
-        FROM
-            course
-        WHERE
-            coachID = ?
-        GROUP BY
-            courseTitle;
-    """
+        equipment_data.append({
+            'Time':d[0]+"  "+d[1]+":00",
+            'Type':d[2],
+            'Number':d[3]
+        })
+
+    return render_template(
+        'coach_profile.html',
+        coach_data = coach_data,
+        equipment_data = equipment_data
+    )
+
+
+@app_router.route('/coach_profile/<username>/<courseTitle>', methods=['GET', 'POST'])
+def coach_evaluate(username, courseTitle):
+    db = get_db()
+    query = "SELECT * FROM coach WHERE coachID = ?"
+    data = db.execute(query, (username,)).fetchall()
+    coach_data = []
+    for d in data:
+        
+        coach_data.append({
+            'id':d[0],
+            'name':d[1],
+            'expertise':d[2],
+            'experience':d[3],
+            'birth':d[4],
+        })
+    
+	#現在coach_course是顯示這個教練開的課，且根據課程名字group
+    query2 = "SELECT distinct courseTitle FROM course WHERE coachID = ?"
     data2 = db.execute(query2, (username,)).fetchall()
     coach_course = [row[0] for row in data2]
     # print(coach_course)
 
     return render_template(
-        'coach_profile.html',
+        'coach_evaluate.html',
         coach_data=coach_data,
         coach_course=coach_course,
         coach_id=username
     )
 
 
-@app_router.route('/evaluate/<course_id>', methods=['GET', 'POST'])
-def evaluate(course_title, coach_id):
+@app_router.route('/evaluate/<coach_id>/<course_title>', methods=['GET', 'POST'])
+def evaluate(coach_id, course_title):
     db = get_db()
-    query = """
-        SELECT
-            reocrd.memberID,
-            record.evaluate
-        FROM
-            record,
-            course
-        WHERE
-            record.courseID = course.courseID AND
-            courseTitle = ? AND
-            coachID = ?
-    """
+    query = "SELECT record.evaluate FROM record, course WHERE record.courseID=course.courseID AND courseTitle = ? AND coachID = ?"
     data = db.execute(query, (course_title, coach_id)).fetchall()
     # print(data[0])
     # print('hi')
+    course_ev = []
+    for d in data:
+        course_ev.append(d[0])
 
-    return render_template('evaluate.html', course_ev=data)
-
+    return render_template('evaluate.html', course_ev=course_ev)
 
 @app_router.route('/frame/<username>')
 def frame(username):

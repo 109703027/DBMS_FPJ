@@ -33,26 +33,16 @@
             {% endfor %}
         </table>
         <br>
-        <hr/>
-        <h2>器材租借清單</h2>
-        <table width="50%">
-          <thead align="left">
-            <tr>
-              <th>租借時間</th>
-              <th>器材</th>
-              <th>數量</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for equi in equipment_data %} 
-            <tr height="50px">
-              <td>{{ equi.Time }}</td>
-              <td>{{ equi.Type }}</td>
-              <td>{{ equi.Number }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h2>教練課程清單</h2>
+        <ul>
+        {% for course in coach_course %}
+            <li>
+                <a href="{{ url_for('app_router.evaluate', course_title=course, coach_id=coach_id ) }}">
+                    {{ course }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
 	</body>
 </html>
 
