@@ -28,7 +28,13 @@
                   <td>{{ course.Day }}</td>
                   <td>{{ course.Start }}</td>
                   <td>{{ course.End }}</td>
-                  <td>{{ course.comment }}</td>
+		  <td>
+		      {% if course.comment %}
+		      	{{ course.comment }}
+		      {% else %}
+		        No Comment
+		      {% endif %}
+		  </td>
             </tr>
                 {% endfor %}
           </tbody>
