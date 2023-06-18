@@ -60,7 +60,6 @@ def my_comm():
     db = get_db()
     sql = """
         SELECT
-            c.commodityID,
             c.name,
             t.amount
         FROM
@@ -75,9 +74,8 @@ def my_comm():
 
     for d in data:
         comm_data.append({
-            'commid': d[0],
-            'commname': d[1],
-            'amount': d[2]
+            'commname': d[0],
+            'amount': d[1]
         })
 
     return render_template(
