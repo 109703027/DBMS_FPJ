@@ -6,13 +6,9 @@
 		<title>教練資料</title>
 	</head>
 	<body>
-        <h1>個人資料</h1>
+        <h1>教練資料</h1>
         <table>
             {% for mem in coach_data %}
-            <tr>
-                <th>教練編號</th>
-                <th>{{ mem.id }}</th>
-            </tr>
             <tr>
                 <th>姓名</th>
                 <th>{{ mem.name }}</th>
@@ -33,14 +29,16 @@
             {% endfor %}
         </table>
         <br>
-        <h2>教練課程清單</h2>
+        <h2>歷史課程清單</h2>
         <ul>
         {% for course in coach_course %}
-            <li>
-                <a href="{{ url_for('app_router.evaluate', course_title=course, coach_id=coach_id ) }}">
-                    {{ course }}
-                </a>
-            </li>
+            <ul style="line-height:30px;">
+                <li>
+                    <a href="{{ url_for('app_router.evaluate', course_title=course, coach_id=coach_id ) }}">
+                        {{ course }}
+                    </a>
+                </li>
+            </ul>
         {% endfor %}
         </ul>
 	</body>
