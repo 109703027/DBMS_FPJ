@@ -15,21 +15,62 @@
         <body>
             <form  action="/search" method="POST"  >   
                 <p>
-                    <label for="">日期 </label>
-                    <input type="date" id="date" name="date" value="{{ today }}"  min="{{ today }}" >
+                    <label for="">查詢日期 </label>
+                    <input type="date" id="date" name="date"  value="{{ today }}" min="{{ today }}" >
                 </p>
 
                 <p>
-                    <label for="">時間 </label>
-                    <input type="number" name="TimeS" value="{{ hour }}"  min="{{ hour }}"  max='23' placeholder="起">
+                    <label for="">查詢時間 </label>
+                    <input type="number" id="TimeS" name="TimeS" value='0'  min='0'  max='23' placeholder="起" required>
                     <input type="hidden" name="userID" value="{{ userID }}">
-                    <input type='submit' value="查詢">
+                    <input type='submit' value="查詢" onclick="return time_error()">
                 </p>
 
+
             </form>
+            <script>
+                function time_error() {
+                    var input = document.getElementById('date');
+                    var date = input.value;
+                    // console.log(date)
+                    var input = document.getElementById('TimeS');
+                    var TimeS = parseInt(input.value);
+
+                    var today = new Date();
+                    var month = today.getMonth() + 1
+                    var day = today.getDate()
+                    if (day<10){
+                        var day = "0" + day
+                    }
+                    var newdate = today.getFullYear() + "-" + "0" + month + "-" + day
+                    // console.log(newdate)
+                    var nextHour = today.getHours() + 1;
+                    if (date == newdate) {
+                        if (TimeS < nextHour){
+                            alert("錯誤，請輸入有效的時間。");
+                            return false;
+                        }
+                    }
+                }
+            
+            </script>
+            <hr style="border-top:1px dashed #0066CC;"/>
+            <h1>查詢結果</h1>
+            
+                <p>
+                    <label for ="">租借日期</label>
+                    <th>{{ dateBorrow }}</th>
+                    
+                </p>
+                <p>
+                    <label for ="">租借時間</label>
+                    <th>{{ timeBorrow }}</th>
+                </p>
 
 
         <table width="50%" >
+            
+
             <thead align="left">
                 <tr>
                 <th>設備</th>

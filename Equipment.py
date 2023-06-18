@@ -97,7 +97,7 @@ def equipment():
             'dateBorrow':date_value,
             'timeBorrow':TimeS
         })
-    #print(equipment_data)
+
     db.commit()
 
     return render_template(
@@ -105,7 +105,9 @@ def equipment():
         userID=userID,
         equipment_data= equipment_data,
         today= Today,
-        hour= Hour
+        hour= Hour,
+        dateBorrow=date_value,
+        timeBorrow=TimeS+':00'
     )
 
 #@equipment_router.route('/borrow/<username>',methods=['POST'])
@@ -188,7 +190,10 @@ def borrow():
         userID=userID,
         equipment_data= equipment_data,
         today= Today,
-        hour= Hour
+        hour= Hour,
+        dateBorrow=DateBorrow,
+        timeBorrow=TimeS+':00'
+        
     )
 
 # @equipment_router.route('/showmem',methods=['POST'])
