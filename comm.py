@@ -54,14 +54,13 @@ def my_comm():
 
     userID = request.form.get('userID')
     db = get_db()
-    sql = "SELECT c.commodityID, c.name, t.amount FROM commodity as c,transactions as t WHERE t.memberID = ? and c.commodityID=t.commodityID"
+    sql = "SELECT c.name, t.amount FROM commodity as c,transactions as t WHERE t.memberID = ? and c.commodityID=t.commodityID"
     data = db.execute(sql, (userID,)).fetchall()
     comm_data = []
     for d in data:
         comm_data.append({
-            'commid':d[0],
-            'commname':d[1],
-            'amount':d[2]
+            'commname':d[0],
+            'amount':d[1]
         })
     
     return render_template(
