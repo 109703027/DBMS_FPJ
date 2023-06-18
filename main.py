@@ -1,10 +1,10 @@
 from flask import Flask, g, Blueprint, render_template
-from app import app_router
-from member_course import member_course_router
-from coach_course import coach_course_router
-from coach_courseOfferings import coach_courseOfferings_router
-from Equipment import equipment_router
-from comm import comm_router
+from src.app import app_router
+from src.member_course import member_course_router
+from src.coach_course import coach_course_router
+from src.coach_courseOfferings import coach_courseOfferings_router
+from src.Equipment import equipment_router
+from src.comm import comm_router
 
 app = Flask(__name__)
 app.register_blueprint(app_router)
