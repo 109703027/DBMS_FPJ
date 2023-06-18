@@ -22,6 +22,7 @@ def get_db():
 @app_router.route('/')
 def start():
     db = get_db()
+    cursor = db.cursor()
     today = datetime.date.today()
     query = "SELECT memberID FROM member WHERE memberExp < ? "
     today_str = today.strftime("%Y-%m-%d")
@@ -33,6 +34,8 @@ def start():
         for mem in result:
             db.execute(query2, (str(mem[0]),))
             print(mem[0] + ' been delete')
+            
+    db.commit()
     return render_template('login_new.html')
 
 
@@ -313,8 +316,11 @@ def evaluate(coach_id, course_title):
     # print('hi')
     course_ev = []
 
-    for d in data:
-        course_ev.append(d[0])
+    if data:
+        for d in data:
+            course_ev.append(d[0])
+    else:
+        course_ev.append("NA")
 
     return render_template('evaluate.html', course_ev=course_ev)
 
