@@ -8,11 +8,11 @@ This is the final project of Spring 2023 Database Management System
 
 
 ## 環境架設
-
+建議使用虛擬環境（virtualenv、conda）進行安裝
 - Flask
 - SQLite3
 
-或者，可以使用以下指令進行安裝
+或者，進入虛擬環境後使用以下指令進行安裝
 
 ```bash
 pip3 install -r requirements.txt
