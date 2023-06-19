@@ -36,4 +36,5 @@ $ python3 main.py
     - 資科三 109703037 田展禾
     - 資科三 109703060 盧奕潔
 
-<!-- 討論內容：https://docs.google.com/document/d/1WB-Fd0gSF0KFMYAPi3eDHzdoq9zziJyDmDTmR7wB6Gs/edit?usp=sharing -->
+## 討論內容
+https://docs.google.com/document/d/1WB-Fd0gSF0KFMYAPi3eDHzdoq9zziJyDmDTmR7wB6Gs/edit?usp=sharing
